@@ -1,0 +1,39 @@
+#summary Upute za instalaciju potrepština
+
+= Uvod =
+
+Ovdje ću ukratko objasniti što i kako trebate instalirati. Upute su za Windowse pošto većina vas koji ovo trebate radi na njima.
+
+== Sastojci ==
+
+  * 1 Eclipse - Eclipse je IDE (Integrated development environment) 
+  * 1 JDK - JDK stoji za Java Development Kit. Dakle to je paket s raznim alatima potrebnim za razvoj Java aplikacija. Npr. kompajler. JRE (Java Runtime Environment) služi samo za pokretanje aplikacija (to vjerojatno imate) i on je uključen u JDK.
+  * SVN - vjerojatno ćete koristiti plugin za Eclipse
+
+== Upute ==
+
+  * Skinite [http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.5-200906111540/eclipse-SDK-3.5-linux-gtk.tar.gz Eclipse Classic 3.5.0 (161 MB)] i [https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jdk-6u16-oth-JPR@CDS-CDS_Developer JDK 6].
+
+  * Instalirajte JDK.
+  * Otpakirajte eclipse-SDK-3.5-win32.zip (ili kako se već zove) i preporučeno je prebaciti ga u Program Files te prebaciti shortcut 
+  * Pokrenite eclipse i izaberite neki workspace (direktorij gdje će se spremati svi projekti)
+  * Sada ćemo dodati plugin za Subversion. Izborna traka: Help -> Install new software
+     * Stisnite na gumbić Add
+     * Name: Subversive, Location: http://download.eclipse.org/technology/subversive/0.7/update-site/
+     * Poklikajte dolje kvačice (onaj source ne morate)
+     * Next, next, finish (prije toga se složite s nečime)
+     * Restart eclipsea
+   * Kad ponovno pokrenete Eclipse pitat će vas da instalirate neki Subversion Kit -- izaberite recimo Subversion Kit 3.1 -- next, next, finish... Restart eclipsea
+   * Ubijte onaj Welcome screen
+   
+   * Sad idite na: File -> New -> Other -> SVN (Project from SVN) -> Next
+   * Za URL upišite: http://fer-projects.googlecode.com/svn/trunk/ , zasad, kasnije ćete upisati drugi URL i svoje usernameove i passworde.
+   * Next, pa stisnite No, izaberite Head revision i onda Finish
+   * Izaberite gore ono prvo i stvorite u sljedećem čarobnjaku projekt s nekim nazivom.
+
+Sad bi se trebao stvoriti projekt u kojem nema ničega i u koji trenutno ne možete pisati.
+
+Kasnije ću dati upute za Javu, Eclipse i SVN.
+
+   
+
