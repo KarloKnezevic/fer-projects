@@ -17,6 +17,9 @@ Ovdje ću ukratko objasniti što i kako trebate instalirati. Upute su za Windows
   * Instalirajte JDK.
   * Otpakirajte eclipse-SDK-3.5-win32.zip (ili kako se već zove) i preporučeno je prebaciti ga u Program Files te prebaciti shortcut 
   * Pokrenite eclipse i izaberite neki workspace (direktorij gdje će se spremati svi projekti)
+
+Možete koristiti bilo koji SVN klijent, ja imam jedino iskustva s onim "klasičnim" koji koristim na linuxu. Sljedeći odjeljak je o Tortoise SVN, a ovdje je o SVN pluginu za Eclipse.
+
   * Sada ćemo dodati plugin za Subversion. Izborna traka: Help -> Install new software
      * Stisnite na gumbić Add
      * Name: Subversive, Location: http://download.eclipse.org/technology/subversive/0.7/update-site/
@@ -31,9 +34,14 @@ Ovdje ću ukratko objasniti što i kako trebate instalirati. Upute su za Windows
    * Next, pa stisnite No, izaberite Head revision i onda Finish
    * Izaberite gore ono prvo i stvorite u sljedećem čarobnjaku projekt s nekim nazivom.
 
-Sad bi se trebao stvoriti projekt u kojem nema ničega i u koji trenutno ne možete pisati.
+Sad bi se trebao stvoriti projekt u kojem nema ničega i u koji trenutno ne možete pisati. (Nisam ovo sve detaljno isprobavao.)
 
-Kasnije ću dati upute za Javu, Eclipse i SVN.
+== Tortoise SVN ==
 
-   
+Skinite klijent [http://tortoisesvn.net/downloads ovdje]. Instalirajte ga i pokrenite. Dobit ćete kratku uputu za korištenje ... uglavnom, otiđite u neki direktoriji i sve naredbe su dostupne na desni klik. 
 
+Prvo morate napraviti checkout repozitorija. Unesete URL repozitorija koji možete naći [http://code.google.com/p/fer-projects/source/checkout ovdje]. CP-ate ga u Tortoise i stisnete ok. Nakon toga on napravi "check-out" u direktorij neki (npr. fer-projects).
+
+U tom direktoriju sad možete raditi `update` - osjvežite sadržaj s najnovijim promjenama ili `commit` (ako imate ta prava) - gurnuti gore na server/repozitorij promijene koje ste napravili. 
+
+Detaljnije o SVN-u sami potražite.
