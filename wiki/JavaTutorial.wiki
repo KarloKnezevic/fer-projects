@@ -1,0 +1,8 @@
+#summary Kratki vodič kroz Javu i OOP uz jednostavan primjer
+
+= Uvod =
+
+Euclid is said to have replied to King Ptolemy's request for an easier way of learning mathematics:
+     "_There is no royal road to geometry._"
+
+
