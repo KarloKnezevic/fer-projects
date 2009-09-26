@@ -170,7 +170,11 @@ public class HelloWorld {
 		Set<Stvorenje> zivotinjskoCarstvo = new java.util.HashSet<Stvorenje>();
 		
 		for(int k=0; k<10; k++) {
-			zivotinjskoCarstvo.add(new Stvorenje(k, true)); // stvaramo i dodajemo u set novi objekt i prilikom stvaranja pozvat ce se spomenuti konstruktor s parametrima k i true
+			/* stvaramo i dodajemo u set novi objekt
+			   i prilikom stvaranja pozvat ce se spomenuti
+			   konstruktor s parametrima k i true
+			*/
+			zivotinjskoCarstvo.add(new Stvorenje(k, true)); 
 		}
 		for(int k=0; k<10; k++) {
 			zivotinjskoCarstvo.add(new Stvorenje(k, false));
@@ -184,3 +188,155 @@ public class HelloWorld {
 	}
 }
 }}}
+
+Na kraju će se ispisati starost svih umnih stvorenja. No obratite pažnju da neće nužno istim redosljedom istim kao što smo ih dodavali u `Set` -- jer u skupu poredak nije bitan, postoje implementacije `Set`-a koje će paziti na redosljed, a mogli smo koristiti i `List` u kojoj je redosljed itekako bitan.
+
+Primjetite da smo `Set` prvo importali iz drugog paketa, a `HashSet` smo direktno koristili tako da smo prvo naveli paket, a zatim ime razreda koji želimo.
+
+Ta linija koda (1. u main) će postati jasnija malo kasnije. I još obratite pažnju na treću `for` petlju, takvo _iteriranje_ je moguće kroz neke objekte. 
+
+== Nasljeđivanje ==
+
+Jedna od bitnih ideja je i nasljeđivanje (eng. *inheritance*). Napravimo novi razred u `hr.fer.hello` i nazovimo ga `Covjek`. Evo koda:
+{{{
+package hr.fer.hello;
+
+public class Covjek extends Stvorenje {
+	
+	public boolean duh = true; // covjek ima i dodatni atribut
+
+	public Covjek(int starost, boolean umnost) throws Exception {
+		super(starost, true);
+	}
+
+	public Covjek(int starost) {
+		super(starost, true);
+	}
+	
+	public void setUmnost(boolean umnost) {
+		return; // ova metoda ne radi nista jer svi ljudi su umni (da bar)
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(getStarost());
+	}	
+}
+}}}
+
+Dakle, razred `Covjek` *nasljeđuje* (odnosno "extends") razred `Stvorenje`. To znači da će nasljediti sve što ima (metode, atribute) `Stvorenje` ali će dodati i još nešto što nemaju možda sva stvorenja ali ima covjek: novi atribut `duh`. Isto tako će _pregaziti_ neke metode poput `setUmnost` jer ne želimo omogućiti da ljudi budu bezumni. Primjetite i drugi konstruktor koji prima samo jedan parametar, te ključnu riječ `super` koja nam omogućava da dođemo do metoda i konstruktora našeg nadrazreda. Možemo na ovo gledati da je Covjek specijalni slučaj Stvorenja, mogli bi napraviti i druge razrede koji nasljeđuju Stvorenje npr. Ptica koja bi možda opet imala neke specifične atribute i metode. 
+
+Svi razredi u Javi nasljeđuju the razred `Object`. Čak ako i ne kažemo to eksplicitno. Dakle naše `Stvorenje` nasljeđuje `Object`, a `Covjek` nasljeđuje `Stvorenje` pa i `Covjek` ima metode koje ima i `Object`: pogledajte [http://java.sun.com/javase/6/docs/api/java/lang/Object.html ovdje] koje su to. I čemu služi metoda `toString()`.
+
+Pogledajmo `Covjek`-a u akciji:
+{{{
+package hr.fer.hello;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class HelloWorld {
+
+	public static void main(String[] args) {
+		Covjek joe = new Covjek(21);
+		Covjek teskera = new Covjek(21);
+		teskera.duh = false;
+		
+		List<Covjek> ljudi = new LinkedList<Covjek>();
+		ljudi.add(joe);
+		ljudi.add(teskera);
+		
+		for(Covjek x : ljudi) if(x.duh == true) System.out.print(x);
+	}
+}
+}}}
+
+== Sučelja ==
+
+Svaki razred može implementirati sučelja (eng. *interface*). Sučelje nam kaže koje metode razred *mora* imati ali ih samo sučelje ne implementira - to moramo sami. Razred može implementirati koliko želi sučelja, no može nasljediti samo jedan razred (tj. extendati). Proširit ćemo našeg `Covjek`-a i reći da implementira sučelje `Comparable`. Evo kako sad izgleda:
+{{{
+package hr.fer.hello;
+
+public class Covjek extends Stvorenje implements Comparable<Covjek> {
+	
+	public boolean duh = true; // covjek ima i dodatni atribut
+
+	public Covjek(int starost, boolean umnost) throws Exception {
+		super(starost, true);
+	}
+
+	public Covjek(int starost) {
+		super(starost, true);
+	}
+	
+	public void setUmnost(boolean umnost) {
+		return; // ova metoda ne radi nista jer svi ljudi su umni (da bar)
+	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(getStarost());
+	}
+
+	@Override
+	public int compareTo(Covjek o) {
+		return o.getStarost() - getStarost();
+	}
+	
+}
+}}}
+
+Zanemarite ovo `<Covjek>` o tome ćemo reći nešto za koji tren. Sučelje `Comparable` nas je tražilo da implementiramo metodu `public int compareTo(Covjek o)`. Pogledajmo sljedeći odsječak u kojem će biti jasna ideja sučelja.
+{{{
+List<Covjek> ljudi = new LinkedList<Covjek>();
+...
+Collections.sort(ljudi);
+}}}
+
+Objekt `ljudi` sadrži listu objekata tipa `Covjek`. `Collections.sort()` je generička metoda u razredu `Collections` koja zna raditi sa `List` (usput `List` je sučelje, a `LinkedList` razred koji ga implementira). No kako će `sort` znati po kojem kriteriju sortirati objekte? Pa znati će sortirati upravo one koji implementiraju sučelje `Comparable` koje će mu reći da objekt sigurno ima metodu `compareTo` i nju će pozivati kad će uspoređivati dva `Covjek`-a. Probajte pogoditi kako će onda soritirati nase "ljude".
+
+Vidite na koji način nam sučelja omogućavaju veću "generičnost".
+
+== Generics ==
+
+Već smo se par puta susreli s `List<Covjek>` (ovo <...> nas mozda zbunjuje) ili necim slicnim. U ovom slučaju to kaže Javi što ćemo spremati u našu `List`-u. Objekte tipa `Covjek`. Da smo željeli listu integera onda bi rekli {{{ List<Integer> brojevi; }}} (postoji razlika između `Integer` i `int`). Logično je da ne želimo za svaki tip podataka implementirati novu listu - to bi bilo glupo. U Javi 1.4 nije bilo potrebno reći što ćemo stavljati u listu, uostalom i sad možemo reći da ćemo stavljati `Object` jer njega svi nasljeđuju. No onda imamo problema kad kasnije uzimamo nešto iz liste. Više ne znamo o kojem tipu podataka se radi pa to postane nepraktično i nesigurno (ako ručno "castamo").
+
+[http://java.sun.com/j2se/1.5.0/docs/guide/language/generics.html Ovdje] možete pročitati detaljnije o tome. 
+
+== Pripazite na... ==
+=== Integer i int ===
+
+Java ima neke primitivne tipove podataka koji nisu objekti. Npr. `int`, `float` ...
+Zbog čega onda postoji `Integer`? Pa zato jer npr `List` radi sa objektima, a `int` to nije. Pa je `Integer` samo omotač oko `int`-a i Java za nas radi automatsko zamotavanje i odmotavanje pa možemo raditi ovakve stvari:
+{{{
+int x = 5;
+Integer y = x; // y je referenca na novi objekt Integer koji ima atribut s vrijednoscu 5
+}}}
+
+U Javi ne postoji "operator overloading" odnosno ==, +, - i ostali operatori uvijek isto znače (za razliku u C++ gdje to možemo promijeniti). Prema tome ako imate ovakav kod:
+{{{
+Integer a = 5; // stvorit će se novi objekt u memoriji i a je referenca na njega
+Integer b = 5; // stvorit će se novi objekt u memoriji i b je referenca na njega
+Integer c = a; // c je referenca na objekt koji već postoji
+if(a == b) napraviNesto();
+if(c == a) napraviNestoDrugo();
+}}}
+U 4. liniji u if naredbi usporedit će se *reference* a ne "vrijednosti" kako bi možda očekivali. A `a` i `b` nisu jednaki jer pokazju na različite stvari. Stoga se `napraviNesto()` NEĆE pozvati ali `napraviNestoDrugo()` hoće!
+
+Ovdje će se stvar ponašati "normalno":
+{{{
+int a = 5;
+int b = 5;
+if(a == b) napraviNesto();
+}}}
+jer `a` i `b` nisu objekti (tj. reference). Za onaj prvi slučaj ćemo koristi metodu `compareTo()` koja vraća 0 ako su jednaki objekti (`Integer` implementira `Comparable`!):
+{{{
+Integer a = 5; 
+Integer b = 5; 
+if(a.compareTo(b) == 0) napraviNesto(); // ovaj put ce se pozvati napraviNesto();
+}}}
+
+=== Reference, objekti ?? ===
+
+
+=== String ===
