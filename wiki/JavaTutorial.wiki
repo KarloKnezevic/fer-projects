@@ -357,6 +357,13 @@ nekaMetoda(x, y); // x se kopira u memorijski prostor funckije nekaMetoda
                  // na isti objekt (dakle samo je jedan objekt u memoriji)
 
 y = 5; // java će zamotati 5 u Integer i stvoriti novi objekt te će y pokazivati na njega
+
+Integer[] polje = new Integer[x]; // stvorit će polje od 10 referenci! 
+                                  // ne objekata, ni jedan objekt se neće stvoriti još
+for(int i=0; i<10; i++) polje[i] = new Integer(); // sad će stvoriti i 10 objekata Integer u memoriji
+
+polje[2] = y; // referenca polje[2] pokazuje na objekt na koji je pokazivao y, 
+               //a na onaj prijasnji vise nitko ne pokazuje
 }}}
 
 
