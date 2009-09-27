@@ -12,10 +12,10 @@ Ovdje ću ukratko objasniti što i kako trebate instalirati. Upute su za Windows
 
 == Upute ==
 
-  * Skinite [http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.5-200906111540/eclipse-SDK-3.5-linux-gtk.tar.gz Eclipse Classic 3.5.0 (161 MB)] i [https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jdk-6u16-oth-JPR@CDS-CDS_Developer JDK 6].
+  * Skinite [http://www.eclipse.org/downloads/download.php?file=/eclipse/downloads/drops/R-3.5.1-200909170800/eclipse-SDK-3.5.1-win32.zip Eclipse Classic 3.5.0 (161 MB)] i [https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=jdk-6u16-oth-JPR@CDS-CDS_Developer JDK 6].
 
   * Instalirajte JDK.
-  * Otpakirajte eclipse-SDK-3.5-win32.zip (ili kako se već zove) i preporučeno je prebaciti ga u Program Files te prebaciti shortcut 
+  * Otpakirajte eclipse-SDK-3.5-win32.zip (ili kako se već zove) i preporučeno je prebaciti ga u Program Files te prebaciti shortcut na desktop
   * Pokrenite eclipse i izaberite neki workspace (direktorij gdje će se spremati svi projekti)
 
 Možete koristiti bilo koji SVN klijent, ja imam jedino iskustva s onim "klasičnim" koji koristim na linuxu. Sljedeći odjeljak je o Tortoise SVN, a ovdje je o SVN pluginu za Eclipse.
