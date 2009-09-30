@@ -15,7 +15,7 @@ public class Compiler {
 		InputStream in = new FileInputStream(new File("/home/hrvoje/test.c"));
 		Lexer lexer = new Lexer(in);
 		while(true) {
-			Token t = lexer.yylex();
+			Token t = lexer.next_token();
 			if(t==null) break;
 			System.out.print(t);
 		}

@@ -12,14 +12,16 @@ import java.util.List;
 %unicode
 %line
 %column
-%unicode 
+%unicode
+%type Token
+%function next_token
 
 %{
   StringBuffer string = new StringBuffer();
   public List<String> constList = new ArrayList<String>();
   public List<String> idnList = new ArrayList<String>();
 
-  String[] fixedLexems = {"break", "case", "char", "const", "continue", "default", "do", 
+  public static String[] fixedLexems = {"break", "case", "char", "const", "continue", "default", "do", 
 		  "double", "else", "exit", "float", "for", "if", "int", "long", 
 		  "return", "short", "signed", "struct", "switch", "unsigned", "void", 
 		  "while", "&&", ">", "<", "==", "<=", ">=", "!=", "&&", "||", "!", "+", 
@@ -44,6 +46,9 @@ import java.util.List;
 		  list.add(value);
 		  i=list.size();
 	  }
+          Token token = new Token(type, i);
+          token.setCol(yycolumn);
+          token.setLine(yyline);
 	  return new Token(type, i);
   }
 %}
@@ -59,8 +64,8 @@ TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
 CommentContent       = ( [^*] | \*+ [^/*] )*
 
-Identifier = [:jletter:] [:jletterdigit:]*
-
+Identifier = [:letter:] [:jletterdigit:]* 
+/* Dodaj skracenice za flow, type i ostalo */
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
 %state STRING
