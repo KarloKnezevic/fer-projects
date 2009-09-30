@@ -1,0 +1,83 @@
+\documentclass[a4paper,12pt,pdflatex]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[croatian]{babel}
+\usepackage{amsmath,amssymb,amsfonts,textcomp,amsthm}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{calc}
+\usepackage[left=3cm,right=2cm,top=3cm,bottom=3cm,nohea dfoot]{geometry}
+\usepackage{tocloft}
+
+% Tocka nakon rednog broja
+\makeatletter
+\renewcommand\thesection{\@arabic\c@section.}
+\renewcommand\thesubsection{\thesection\@arabic\c@subsection.}
+\renewcommand\thesubsubsection{\thesubsection\@arabic\c@subsubsection.}
+\renewcommand\theequation{\@arabic\c@equation}
+\renewcommand\thefigure{\@arabic\c@figure.}
+\renewcommand\thetable{\@arabic\c@table.}
+\makeatother
+
+\title{Dokumentacija}
+\author{Hrvoje Bandov}
+\begin{document}
+\thispagestyle{empty}
+
+\vspace{1cm}
+{\centering\mdseries\large
+SVEUČILIŠTE U ZAGREBU
+\par}
+
+\vspace{0.5cm}
+{\centering\bfseries\large
+FAKULTET ELEKTROTEHNIKE I RAČUNARSTVA
+\par}
+
+\vspace{7.3cm}
+{\centering\bfseries\large
+PPJ
+\par}
+
+\vspace{1cm}
+{\centering\bfseries\Large
+Izrada kompajlera
+\par}
+
+\vspace{0.5cm}
+{\centering\itshape
+Autori...
+\par}
+
+
+\vspace{9.5cm}
+{\centering\large
+Zagreb, 2010.
+\par}
+
+\pagebreak
+%\maketitle
+%\tableofcontents
+\bigskip
+\bigskip
+{\bfseries\large Sadržaj}
+\bigskip
+% dodavanje sadržaja
+\setcounter{tocdepth}{3}
+\renewcommand\contentsname{}
+\tableofcontents
+
+\pagebreak
+
+% definicije theorem-like dijelova
+\theoremstyle{definition}
+	\newtheorem{example}{Primjer}
+	\newtheorem{definition}{Definicija}
+\theoremstyle{remark}
+	\newtheorem*{solution}{Rješenje}
+
+\include{uvod}
+
+\include{spec}
+
+
+\end{document}
