@@ -12,13 +12,16 @@ public class Compiler {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		InputStream in = new FileInputStream(new File("/home/hrvoje/test.c"));
+		InputStream in = new FileInputStream(new File("test.c"));
 		Lexer lexer = new Lexer(in);
 		while(true) {
 			Token t = lexer.next_token();
 			if(t==null) break;
 			System.out.print(t);
 		}
+		MyFirstUI gui = new MyFirstUI();
+		gui.setVisible(true);
+		
 	}
 
 }
