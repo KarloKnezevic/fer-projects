@@ -27,22 +27,6 @@ public class ppjUI extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        Table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Token 1", "Pointer 1", "Value 1", "Line 1", "Con 1"},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Token", "Pointer", "Vrijednost", "Line", "Con"
-            }
-        ));
         jScrollPane1.setViewportView(Table);
 
         menuFile.setText("File");
@@ -116,7 +100,7 @@ public class ppjUI extends javax.swing.JFrame {
 
  
     // Variables declaration - do not modify
-    private javax.swing.JTable Table;
+    public javax.swing.JTable Table;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
