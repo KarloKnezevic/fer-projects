@@ -27,8 +27,14 @@ import java.util.List;
 		  "while", "&&", ">", "<", "==", "<=", ">=", "!=", "&&", "||", "!", "+", 
 		  "-", "*", "/", "%", "=", "}", "{", "]", "[", "(", ")", ":", ";", 
 		  "\"", "'", ",", "."};
-  
-  public List<String> fixedList = new ArrayList<String>();
+
+  public static List<String> fixedList = new ArrayList<String>();
+
+  static {
+	for(String s : fixedLexems) {
+		fixedList.add(s);
+	}
+  }
   
   private Token newToken(Token.Type type, String value) {
 	  List<String> list = null;
@@ -65,64 +71,33 @@ EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
 CommentContent       = ( [^*] | \*+ [^/*] )*
 
 Identifier = [:letter:] [:jletterdigit:]* 
-/* Dodaj skracenice za flow, type i ostalo */
-DecIntegerLiteral = 0 | [1-9][0-9]*
+
+Type = "void" | "boolean" | "float" | "int" | "char" | "struct"
+Flow = "switch" | "case" | "continue" | "default" | "do" | "else" | "for" | "if" | "break" | "while"
+OtherKeywords = "#include" | "return"
+
+Operators = "<" | ">" | "==" | "<=" | ">=" | "!=" | "&&" | "||" | "!" | "+" | "-" | "*" | "/" | "%" | "="
+Special = "{" | "}" | "[" | "]" | "(" | ")" | ";" | "." | ","
+
+Char = "'" ([^'] | \\') "'"
+Integer = [1-9][0-9]*
+Float = (0 | [1-9][0-9]*) . [0-9]*
 
 %state STRING
 
 %%
 
-/* keywords */
-<YYINITIAL> "break" | 
-"case" | 
-"char" | 
-"const" | 
-"continue" | 
-"default" | 
-"do" | 
-"double" | 
-"else" | 
-"exit" | 
-"float" | 
-"for" | 
-"if" | 
-"int" | 
-"long" | 
-"return" | 
-"short" | 
-"signed" | 
-"struct" | 
-"switch" | 
-"unsigned" | 
-"void" | 
-"while" | 
-"&&" | 
-">" | 
-"<" | 
-"==" | 
-"<=" | 
-">=" | 
-"!=" | 
-"&&" | 
-"||" | 
-"!" | 
-"+" | 
-"-" | 
-"*" | 
-"/" | 
-"%" | 
-"=" | 
-"}" | 
-"{" | 
-"]" | 
-"[" | 
-"(" | 
-")" | 
-":" | 
-";" | 
-"'" | 
-"," | 
-"." { return newToken(Token.Type.KEY, yytext()); }
+/* kljucne rijeci */
+<YYINITIAL> {Type} |
+{Flow} |
+{OtherKeywords} |
+{Special} |
+{Operators} { return newToken(Token.Type.KEY, yytext()); }
+
+/* konstante */
+<YYINITIAL> {Char} |
+{Integer} |
+{Float} { return newToken(Token.Type.CONST, yytext()); }
 
 <YYINITIAL> {
   /* identifiers */ 
