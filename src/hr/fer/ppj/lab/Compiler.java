@@ -19,7 +19,7 @@ public class Compiler {
 			if(t==null) break;
 			System.out.print(t);
 		}
-		MyFirstUI gui = new MyFirstUI();
+		ppjUI gui = new ppjUI();
 		gui.setVisible(true);
 		
 	}
