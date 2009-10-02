@@ -17,9 +17,11 @@ import java.util.List;
 %function next_token
 
 %{
+  public enum ConstType {INT, FLOAT, CHAR, STRING};
   StringBuffer string = new StringBuffer();
-  public List<String> constList = new ArrayList<String>();
-  public List<String> idnList = new ArrayList<String>();
+  public List<String> constList = new ArrayList<String>(); /* Tablica konstanti */
+  public List<ConstType> constTypeList = new ArrayList<ConstType>(); /* Tablica tipova konstanti */
+  public List<String> idnList = new ArrayList<String>(); /* Tablica identifikatora */
 
   public static String[] fixedLexems = {"break", "case", "char", "const", "continue", "default", "do", 
 		  "double", "else", "exit", "float", "for", "if", "int", "long", 
@@ -28,12 +30,19 @@ import java.util.List;
 		  "-", "*", "/", "%", "=", "}", "{", "]", "[", "(", ")", ":", ";", 
 		  "\"", "'", ",", "."};
 
-  public static List<String> fixedList = new ArrayList<String>();
+  /* Tablica ostalih leksema npr. while, boolean, for itd. */
+  public static List<String> fixedList = new ArrayList<String>(); 
 
   static {
 	for(String s : fixedLexems) {
 		fixedList.add(s);
 	}
+  }
+  
+  private Token newConst(Token.Type type, String value, ConstType constType) {
+	  Token t = newToken(type, value);
+	  constTypeList.add(t.getPointer(), constType);
+	  return t;
   }
   
   private Token newToken(Token.Type type, String value) {
@@ -50,12 +59,12 @@ import java.util.List;
 	  int i = list.indexOf(value);
 	  if(i==-1) {
 		  list.add(value);
-		  i=list.size();
+		  i=list.size()-1;
 	  }
-          Token token = new Token(type, i);
-          token.setCol(yycolumn);
-          token.setLine(yyline);
-	  return new Token(type, i);
+      Token token = new Token(type, i);
+      token.setCol(yycolumn);
+      token.setLine(yyline);
+	  return token;
   }
 %}
 
@@ -80,8 +89,8 @@ Operators = "<" | ">" | "==" | "<=" | ">=" | "!=" | "&&" | "||" | "!" | "+" | "-
 Special = "{" | "}" | "[" | "]" | "(" | ")" | ";" | "." | ","
 
 Char = "'" ([^'] | \\') "'"
-Integer = [1-9][0-9]*
-Float = (0 | [1-9][0-9]*) . [0-9]*
+Integer = ("0" | [1-9][0-9]*)
+Float = (0 | [1-9][0-9]*) "." [0-9]*
 
 %state STRING
 
@@ -95,9 +104,11 @@ Float = (0 | [1-9][0-9]*) . [0-9]*
 {Operators} { return newToken(Token.Type.KEY, yytext()); }
 
 /* konstante */
-<YYINITIAL> {Char} |
-{Integer} |
-{Float} { return newToken(Token.Type.CONST, yytext()); }
+<YYINITIAL> {
+	{Char}  	{ return newConst(Token.Type.CONST, yytext(), ConstType.CHAR); }
+	{Float} 	{ return newConst(Token.Type.CONST, yytext(), ConstType.FLOAT); }
+	{Integer}  	{ return newConst(Token.Type.CONST, yytext(), ConstType.INT); }
+}
 
 <YYINITIAL> {
   /* identifiers */ 
@@ -114,8 +125,7 @@ Float = (0 | [1-9][0-9]*) . [0-9]*
 
 <STRING> {
   \"                             { yybegin(YYINITIAL); 
-                                   return newToken(Token.Type.CONST, 
-                                   string.toString()); }
+                                   return newConst(Token.Type.CONST, string.toString(), ConstType.STRING); }
   [^\n\r\"\\]+                   { string.append( yytext() ); }
   \\t                            { string.append('\t'); }
   \\n                            { string.append('\n'); }
