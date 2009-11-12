@@ -2,6 +2,7 @@ package hr.fer.ppj.lab;
 
 import java.util.ArrayList;
 import java.util.List;
+import java_cup.runtime.*; 
 
 /**
  * Lexer
@@ -12,8 +13,9 @@ import java.util.List;
 %unicode
 %line
 %column
-%type Token
+/*%type Token*/
 %function next_token
+%cup
 
 %{
   StringBuffer string = new StringBuffer();
