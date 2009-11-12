@@ -12,59 +12,53 @@ import java.util.List;
 %unicode
 %line
 %column
-%unicode
 %type Token
 %function next_token
 
 %{
-  public enum ConstType {INT, FLOAT, CHAR, STRING};
   StringBuffer string = new StringBuffer();
-  public List<String> constList = new ArrayList<String>(); /* Tablica konstanti */
-  public List<ConstType> constTypeList = new ArrayList<ConstType>(); /* Tablica tipova konstanti */
-  public List<String> idnList = new ArrayList<String>(); /* Tablica identifikatora */
+  
+  public enum ConstType {INT, FLOAT, CHAR, STRING};
+  public Table symbolTable;
+  public List<Token> tokenList;
 
-  public static String[] fixedLexems = {"break", "case", "char", "const", "continue", "default", "do", 
+  public static String[] krosLexems = {"break", "case", "char", "const", "continue", "default", "do", 
 		  "double", "else", "exit", "float", "for", "if", "int", "long", 
 		  "return", "short", "signed", "struct", "switch", "unsigned", "void", 
 		  "while", "&&", ">", "<", "==", "<=", ">=", "!=", "&&", "||", "!", "+", 
 		  "-", "*", "/", "%", "=", "}", "{", "]", "[", "(", ")", ":", ";", 
 		  "\"", "'", ",", "."};
-
-  /* Tablica ostalih leksema npr. while, boolean, for itd. */
-  public static List<String> fixedList = new ArrayList<String>(); 
-
-  static {
-	for(String s : fixedLexems) {
-		fixedList.add(s);
-	}
-  }
   
   private Token newConst(Token.Type type, String value, ConstType constType) {
-	  Token t = newToken(type, value);
-	  constTypeList.add(t.getPointer(), constType);
-	  return t;
+	  int i = symbolTable.addConstant(value, constType);
+      Token token = new Token(type, i);
+      token.setCol(yycolumn);
+      token.setLine(yyline);
+      tokenList.add(token);
+	  return token;
   }
   
   private Token newToken(Token.Type type, String value) {
-	  List<String> list = null;
-
+	  int i;
 	  if(type.equals(Token.Type.CONST)) {
-		  list = constList;
+		  i = symbolTable.addConstant(value, null); // ovo se zapravo nece dogadjati
 	  } else if (type.equals(Token.Type.IDN)) {
-		  list = idnList;
+		  i = symbolTable.addIdentifier(value);
 	  } else {
-		  list = fixedList;
-	  }
-	  
-	  int i = list.indexOf(value);
-	  if(i==-1) {
-		  list.add(value);
-		  i=list.size()-1;
+		  i = symbolTable.addKros(value);
 	  }
       Token token = new Token(type, i);
       token.setCol(yycolumn);
       token.setLine(yyline);
+      tokenList.add(token);
 	  return token;
+  }
+
+  public Lexer(java.io.InputStream in, Table table, List<Token> tokenList) {
+	  this(in);
+	  table.initKros(Lexer.krosLexems);
+	  symbolTable = table;
+	  this.tokenList=tokenList;
   }
 %}
 
