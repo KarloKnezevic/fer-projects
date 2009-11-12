@@ -1,0 +1,68 @@
+package hr.fer.ppj.lab;
+
+import java_cup.runtime.*;
+import java.io.*;
+
+parser code {: 
+	Lexer lexer;
+	
+	public parser(Lexer lexer)
+            throws FileNotFoundException {
+        super(lexer);
+        this.lexer = lexer;
+    }
+
+:};
+ 
+scan with {:
+	return lexer.next_token();
+
+:};
+
+
+/* Terminals (tokens returned by the scanner). */
+terminal 				LJESTVE, TOCKA, ZAREZ, DVOTOCKA, TOCKA_ZAREZ, L_OBICNA_ZAGRADA, D_OBICNA_ZAGRADA, L_UGLATA_ZAGRADA, D_UGLATA_ZAGRADA, L_VITICASTA_ZAGRADA, D_VITICASTA_ZAGRADA;
+
+terminal				PLUS, MINUS, PLUS_PLUS, MINUS_MINUS, PUTA, DIJELJENO, PLUS_JEDNAKO, MINUS_JEDNAKO, PUTA_JEDNAKO, DIJELJENO_JEDNAKO, MOD, AND, AND_AND, OKOMITA, OKOMITA_OKOMITA, KAPA, L_POSMAK, D_POSMAK, TILDA;
+
+terminal 				JEDNAKO, VECE, MANJE, VECE_JEDNAKO, MANJE_JEDNAKO, RAZLICITO;
+
+terminal				SWITCH, CASE, DEFAULT, CONTINUE, STRUCT, IF, ELSE, DO, MAIN, INCLUDE, INT, DOUBLE, FLOAT, CHAR, WHILE, BREAK, FOR, RETURN, VOID;
+terminal				Ident;
+terminal Integer			Const_INT;
+terminal Float			Const_FLOAT;
+terminal String			String;
+
+
+
+/* Non terminals */
+non terminal			program;
+non terminal 			niz_naredbi, naredba;
+non terminal			aritmeticki_operator;
+non terminal Integer		aritmeticki_izraz_integer;
+non terminal Float		aritmeticki_izraz_float;
+non terminal Boolean		operator_usporedbe;
+
+
+/* Precedences */
+/*
+precedence left operator_usporedbe;
+precedence left aritmeticki_izraz_integer, aritmeticki_izraz_float, aritmeticki_operator;
+precedence left PUTA, DIJELJENO;     */
+
+
+/* The grammar */
+program ::= L_OBICNA_ZAGRADA D_OBICNA_ZAGRADA {: System.out.println("prepoznat je program!!!!!!!!"); :};
+
+program ::= PLUS;
+
+/*
+program 		::= INT MAIN L_OBICNA_ZAGRADA D_OBICNA_ZAGRADA L_VITICASTA_ZAGRADA niz_naredbi D_VITICASTA_ZAGRADA  {: System.out.println("prepoznat je program!!!!!!!!"); :};
+
+aritmeticki_operator ::= PLUS | MINUS | PUTA | DIJELJENO;
+aritmeticki_izraz_integer	::= Const_INT:e1 aritmeticki_operator Const_INT:e2  {: RESULT = new Integer(e1.intValue() + e2.intValue()); System.out.println("Odabrana je produkcija izraz -> INT + INT"); :};
+
+niz_naredbi	::= naredba niz_naredbi | naredba;
+
+naredba		::= Ident JEDNAKO aritmeticki_izraz_integer TOCKA_ZAREZ | RETURN Const_INT TOCKA_ZAREZ;
+*/

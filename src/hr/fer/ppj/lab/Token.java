@@ -1,15 +1,20 @@
 package hr.fer.ppj.lab;
 
-public class Token {
+import java_cup.runtime.*;
+
+public class Token extends Symbol {
 
 	public enum Type {KEY, IDN, CONST};
+	
+	
 	
 	private Type type;
 	private int pointer;
 	private int line;
 	private int col;
 	
-	public Token(Type type, int pointer) {
+	public Token(Type type, int pointer, int sym) {
+		super(sym);
 		this.type = type;
 		this.pointer = pointer;
 	}
@@ -49,6 +54,13 @@ public class Token {
 	@Override
 	public String toString() {
 		return "(" + type.toString() + ", " + String.valueOf(pointer) + ")"; 
+	}
+	
+	
+	public Token(Type type, int pointer) {
+		super(0); // !
+		this.type = type;
+		this.pointer = pointer;
 	}
 	
 }

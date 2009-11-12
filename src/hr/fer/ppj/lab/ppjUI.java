@@ -66,7 +66,11 @@ public class ppjUI extends javax.swing.JFrame {
 		jMenuItem1.setText("Open");
 		jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jMenuItem1ActionPerformed(evt);
+				try {
+					jMenuItem1ActionPerformed(evt);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		menuFile.add(jMenuItem1);
@@ -98,7 +102,7 @@ public class ppjUI extends javax.swing.JFrame {
 		pack();
 	}// </editor-fold>
 
-	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
+	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) throws Exception {
 		javax.swing.JFileChooser jfc = new javax.swing.JFileChooser();
 		jfc.setCurrentDirectory(new java.io.File("C:\\"));
 		if (jfc.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
