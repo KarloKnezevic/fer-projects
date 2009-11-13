@@ -33,7 +33,7 @@ import java_cup.runtime.*;
   
   private Token newConst(Token.Type type, String value, ConstType constType) {
 	  int i = symbolTable.addConstant(value, constType);
-      Token token = new Token(type, i);
+      Token token = new Token(type, i, Tools.getSymForConst(constType));
       token.setCol(yycolumn);
       token.setLine(yyline);
       tokenList.add(token);
@@ -42,14 +42,17 @@ import java_cup.runtime.*;
   
   private Token newToken(Token.Type type, String value) {
 	  int i;
+	  Token token;
 	  if(type.equals(Token.Type.CONST)) {
-		  i = symbolTable.addConstant(value, null); // ovo se zapravo nece dogadjati
+		  return newConst(type, value, null); // ovo se zapravo nece dogadjati
 	  } else if (type.equals(Token.Type.IDN)) {
 		  i = symbolTable.addIdentifier(value);
+		  token = new Token(type, i, Tools.getSymForIdn());
 	  } else {
 		  i = symbolTable.addKros(value);
+		  token = new Token(type, i, Tools.getSym(value));
 	  }
-      Token token = new Token(type, i);
+
       token.setCol(yycolumn);
       token.setLine(yyline);
       tokenList.add(token);
@@ -78,7 +81,7 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 Identifier = [:letter:] [:jletterdigit:]* 
 
 Type = "void" | "boolean" | "float" | "int" | "char" | "struct"
-Flow = "switch" | "case" | "continue" | "default" | "do" | "else" | "for" | "if" | "break" | "while"
+Flow = "continue" | "do" | "else" | "for" | "if" | "break" | "while"
 OtherKeywords = "#include" | "return"
 
 Operators = "<" | ">" | "==" | "<=" | ">=" | "!=" | "&&" | "||" | "!" | "+" | "-" | "*" | "/" | "%" | "="

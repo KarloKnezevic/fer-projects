@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+import java_cup.runtime.Symbol;
+
 import javax.swing.table.TableModel;
 
 public class Compiler {
@@ -18,8 +20,9 @@ public class Compiler {
 		
 		Lexer lexer = new Lexer(in, symbolTable, listaTokena);
 		
-		parser Sanka = new parser(lexer);
-		Sanka.parse();
+		parser sanka = new parser(lexer);
+		
+		Symbol start = sanka.parse();
 		
 		return Tools.getTableModel(listaTokena, symbolTable);
 
