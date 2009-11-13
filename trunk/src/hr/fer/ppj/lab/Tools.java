@@ -1,6 +1,8 @@
 package hr.fer.ppj.lab;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.table.TableModel;
 
@@ -34,5 +36,54 @@ public class Tools {
         });
 		
 		return model;
+	}
+	
+	public static Map<String, Integer> symMap = new HashMap<String, Integer>();
+	static {
+		int[] symList = {
+				sym.PLUS, sym.MINUS, sym.MUL, sym.DIV, sym.MOD, sym.AND, sym.OR, sym.ASSINGMENT,
+				sym.EQUAL, sym.LESS, sym.GREATER, sym.LEQ, sym.GEQ, sym.NOTEQ, sym.NOT,
+				sym.INT, sym.CHAR, sym.FLOAT, sym.BOOLEAN, sym.STRUCT, sym.VOID,
+				sym.IF, sym.ELSE,
+				sym.DO, sym.WHILE, sym.FOR, sym.BREAK, sym.CONTINUE,
+				sym.ZAREZ, sym.TOCKA, sym.TOCKAZAREZ,
+				sym.OBLA_D, sym.OBLA_L, sym.UGLATA_D, sym.UGLATA_L, sym.VITICASTA_D, sym.VITICASTA_L
+				};
+		String[] valueList = {
+				"+", "-", "*", "/", "%", "&&", "||", "=",
+				"==", "<", ">", "<=", ">=", "!=", "!",
+				"int", "char", "float", "boolean", "struct", "void",
+				"if", "else",
+				"do", "while", "for", "break", "continue",
+				",", ".", ";",
+				"(", ")", "[", "]", "{", "}"
+				};
+		for(int i=0; i<valueList.length; i++) {
+			symMap.put(valueList[i], symList[i]);
+		}
+	}
+	
+	public static int getSym(String value) {
+		return symMap.get(value);
+	}
+	
+	public static int getSymForConst(Lexer.ConstType type) {
+		if(type == Lexer.ConstType.CHAR) {
+			return sym.CONST_CHAR;
+		}
+		if(type == Lexer.ConstType.FLOAT) {
+			return sym.CONST_FLOAT;
+		}
+		if(type == Lexer.ConstType.INT) {
+			return sym.CONST_INT;
+		}
+		if(type == Lexer.ConstType.STRING) {
+			return sym.CONST_STR;
+		}
+		return -1;
+	}
+	
+	public static int getSymForIdn() {
+		return sym.IDN;
 	}
 }

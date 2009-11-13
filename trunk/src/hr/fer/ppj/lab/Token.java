@@ -7,7 +7,6 @@ public class Token extends Symbol {
 	public enum Type {KEY, IDN, CONST};
 	
 	
-	
 	private Type type;
 	private int pointer;
 	private int line;
