@@ -51,7 +51,8 @@ terminal 	CONST_STR;
 
 
 /* Non terminals */
-non terminal			program;
+non terminal	program;
+non terminal	operator;
 
 /* Precedences */
 
@@ -60,5 +61,8 @@ non terminal			program;
 /* The grammar */
 start with program;
 
-program ::= 	IDN:n1 PLUS:n2 IDN:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}
-	|	program:n1 MUL CONST_INT:n2 {: RESULT = new TreeNode("program", new Object[]{n1, n2}); :}; 
+program ::= 	IDN:n1 operator:n2 IDN:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}
+	|	program:n1 operator:n2 CONST_INT:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}; 
+
+operator ::=	PLUS:n1 {: RESULT = new TreeNode("operator", new Object[]{n1}); :};
+operator ::=	MUL:n1 {: RESULT = new TreeNode("operator", new Object[]{n1}); :};
