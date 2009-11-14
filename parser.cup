@@ -51,9 +51,9 @@ terminal 	CONST_STR;
 
 
 /* Non terminals */
-non terminal	program;
-non terminal	operator;
-
+non terminal	program, ext_declarations, ext_declaration;
+non terminal	func_def, argdef_list, argdef;
+non terminal	type_specifier;
 /* Precedences */
 
 /* ... */
@@ -61,8 +61,34 @@ non terminal	operator;
 /* The grammar */
 start with program;
 
+program 		::= ext_declarations:n1  {: RESULT = new TreeNode("program", new Object[]{n1}); :} ;
+ext_declarations 	::= ext_declaration:n1 ext_declarations:n2  
+			{: RESULT = new TreeNode("ext_declarations", new Object[]{n1, n2}); :} ;
+
+ext_declarations	::= ext_declaration:n1 {: RESULT = new TreeNode("ext_declarations", new Object[]{n1}); :} ;
+ext_declaration	 	::= func_def:n1 {: RESULT = new TreeNode("ext_declaration", new Object[]{n1}); :} ;
+
+func_def	::= type_specifier:n1 IDN:n2 OBLA_D:n3 argdef_list:n4 OBLA_L:n5 TOCKAZAREZ:n6
+		{: RESULT = new TreeNode("func_def", new Object[]{n1,n2,n3,n4,n5,n6}); :} ;
+
+argdef_list	::= argdef:n1 {: RESULT = new TreeNode("argdef_list", new Object[]{n1}); :} ;
+argdef_list	::= argdef:n1 ZAREZ:n2 argdef_list:n3 {: RESULT = new TreeNode("argdef_list", new Object[]{n1,n2,n3}); :} ;
+
+argdef	::= type_specifier:n1 IDN:n2 {: RESULT = new TreeNode("argdef", new Object[]{n1,n2}); :} ;
+
+
+
+type_specifier	::= INT:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
+type_specifier	::= CHAR:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
+type_specifier	::= FLOAT:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
+type_specifier	::= BOOLEAN:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
+type_specifier	::= VOID:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
+
+
+/*
 program ::= 	IDN:n1 operator:n2 IDN:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}
 	|	program:n1 operator:n2 CONST_INT:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}; 
 
 operator ::=	PLUS:n1 {: RESULT = new TreeNode("operator", new Object[]{n1}); :};
 operator ::=	MUL:n1 {: RESULT = new TreeNode("operator", new Object[]{n1}); :};
+*/
