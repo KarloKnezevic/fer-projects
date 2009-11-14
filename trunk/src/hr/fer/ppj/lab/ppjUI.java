@@ -46,16 +46,10 @@ public class ppjUI extends javax.swing.JFrame {
 		jMenuItem1 = new javax.swing.JMenuItem();
 		jMenuItem2 = new javax.swing.JMenuItem();
 
-		// tabovi
-		JTabbedPane tabbedPane = new JTabbedPane();
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		jScrollPane1.setViewportView(Table);
-		
-		tabbedPane.addTab("Leksička tablica", jScrollPane1);
-		tabbedPane.addTab("Sintaksno stablo", new JPanel());
-		
-		// traka
+
 		menuFile.setText("File");
 		menuFile.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -92,11 +86,11 @@ public class ppjUI extends javax.swing.JFrame {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 620,
+				jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620,
 				javax.swing.GroupLayout.PREFERRED_SIZE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 220,
+				jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220,
 				Short.MAX_VALUE));
 		
 		pack();
