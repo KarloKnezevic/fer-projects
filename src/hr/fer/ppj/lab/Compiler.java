@@ -24,6 +24,7 @@ public class Compiler {
 		
 		Symbol start = parser.parse();
 		
+		Tools.visualizeParseTree(start);
 		return Tools.getTableModel(listaTokena, symbolTable);
 
 	}
