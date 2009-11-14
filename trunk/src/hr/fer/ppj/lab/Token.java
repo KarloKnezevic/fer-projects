@@ -55,6 +55,9 @@ public class Token extends Symbol {
 		return "(" + type.toString() + ", " + String.valueOf(pointer) + ")"; 
 	}
 	
+	public void setSymbolValue(String value) {
+		this.value = value;
+	}
 	
 	public Token(Type type, int pointer) {
 		super(0); // !
