@@ -6,12 +6,12 @@ import java.io.*;
 parser code {: 
 	Lexer lexer;
 	
-	public parser(Lexer lexer)
-            throws FileNotFoundException {        super(lexer);
-        this.lexer = lexer;
-    }
+	public Parser(Lexer lexer) throws FileNotFoundException { 
+		super(lexer);
+	        this.lexer = lexer;
+	}
 :};
- 
+
 scan with {:
 	return lexer.next_token();
 :};
@@ -40,18 +40,18 @@ terminal	ZAREZ, TOCKA, TOCKAZAREZ;
 /* Zagrade: ( ) [ ] { } */
 terminal	OBLA_D, OBLA_L, UGLATA_D, UGLATA_L, VITICASTA_D, VITICASTA_L;
 
-terminal RETURN;
+terminal 	RETURN;
 
-terminal			IDN;
-terminal Integer	CONST_INT;
-terminal Float		CONST_FLOAT;
-terminal Character	CONST_CHAR;
-terminal String		CONST_STR;
+terminal	IDN;
+terminal 	CONST_INT;
+terminal 	CONST_FLOAT;
+terminal 	CONST_CHAR;
+terminal 	CONST_STR;
 
 
 
 /* Non terminals */
-non terminal			program;
+non terminal			program;
 
 /* Precedences */
 
@@ -60,4 +60,5 @@ non terminal			program;
 /* The grammar */
 start with program;
 
-program ::= IDN PLUS IDN;
+program ::= 	IDN:n1 PLUS:n2 IDN:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}
+	|	program:n1 MUL CONST_INT:n2 {: RESULT = new TreeNode("program", new Object[]{n1, n2}); :}; 

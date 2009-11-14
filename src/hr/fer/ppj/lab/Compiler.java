@@ -20,9 +20,9 @@ public class Compiler {
 		
 		Lexer lexer = new Lexer(in, symbolTable, listaTokena);
 		
-		parser sanka = new parser(lexer);
+		Parser parser = new Parser(lexer);
 		
-		Symbol start = sanka.parse();
+		Symbol start = parser.parse();
 		
 		return Tools.getTableModel(listaTokena, symbolTable);
 

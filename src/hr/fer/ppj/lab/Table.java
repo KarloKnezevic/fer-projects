@@ -43,4 +43,20 @@ public class Table {
 		}
 		return i;
 	}
+	
+	public String getConstValue(int i) {
+		return constList.get(i);
+	}
+	
+	public String getIdentifierValue(int i) {
+		return idnList.get(i);
+	}
+	
+	public String getKrosValue(int i) {
+		return krosList.get(i);
+	}
+	
+	public Lexer.ConstType getConstType(int i) {
+		return constTypeList.get(i);
+	}
 }

@@ -37,6 +37,7 @@ import java_cup.runtime.*;
       token.setCol(yycolumn);
       token.setLine(yyline);
       tokenList.add(token);
+      token.setSymbolValue(symbolTable.getConstValue(i)); // postavi atribut value od Symbol razreda
 	  return token;
   }
   
@@ -48,9 +49,11 @@ import java_cup.runtime.*;
 	  } else if (type.equals(Token.Type.IDN)) {
 		  i = symbolTable.addIdentifier(value);
 		  token = new Token(type, i, Tools.getSymForIdn());
+		  token.setSymbolValue(symbolTable.getIdentifierValue(i)); // postavi atribut value od Symbol razreda
 	  } else {
 		  i = symbolTable.addKros(value);
 		  token = new Token(type, i, Tools.getSym(value));
+		  token.setSymbolValue(symbolTable.getKrosValue(i)); // postavi atribut value od Symbol razreda
 	  }
 
       token.setCol(yycolumn);
@@ -65,6 +68,7 @@ import java_cup.runtime.*;
 	  symbolTable = table;
 	  this.tokenList=tokenList;
   }
+
 %}
 
 LineTerminator = \r|\n|\r\n
