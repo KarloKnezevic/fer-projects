@@ -16,23 +16,17 @@ import prefuse.action.ActionList;
 import prefuse.action.RepaintAction;
 import prefuse.action.assignment.ColorAction;
 import prefuse.action.assignment.DataColorAction;
-import prefuse.action.layout.Layout;
-import prefuse.action.layout.graph.ForceDirectedLayout;
 import prefuse.action.layout.graph.NodeLinkTreeLayout;
 import prefuse.activity.Activity;
-import prefuse.controls.DragControl;
 import prefuse.controls.PanControl;
 import prefuse.controls.SubtreeDragControl;
-import prefuse.controls.WheelZoomControl;
 import prefuse.controls.ZoomControl;
 import prefuse.data.Graph;
 import prefuse.data.Node;
-import prefuse.data.Schema;
 import prefuse.data.Tree;
 import prefuse.render.DefaultRendererFactory;
 import prefuse.render.LabelRenderer;
 import prefuse.util.ColorLib;
-import prefuse.visual.NodeItem;
 import prefuse.visual.VisualItem;
 
 public class Tools {
@@ -76,7 +70,8 @@ public class Tools {
 				sym.IF, sym.ELSE,
 				sym.DO, sym.WHILE, sym.FOR, sym.BREAK, sym.CONTINUE,
 				sym.ZAREZ, sym.TOCKA, sym.TOCKAZAREZ,
-				sym.OBLA_L, sym.OBLA_D, sym.UGLATA_L, sym.UGLATA_D, sym.VITICASTA_L, sym.VITICASTA_D
+				sym.OBLA_L, sym.OBLA_D, sym.UGLATA_L, sym.UGLATA_D, sym.VITICASTA_L, sym.VITICASTA_D,
+				sym.RETURN
 				};
 		String[] valueList = {
 				"+", "-", "*", "/", "%", "&&", "||", "=",
@@ -85,7 +80,8 @@ public class Tools {
 				"if", "else",
 				"do", "while", "for", "break", "continue",
 				",", ".", ";",
-				"(", ")", "[", "]", "{", "}"
+				"(", ")", "[", "]", "{", "}",
+				"return"
 				};
 		for(int i=0; i<valueList.length; i++) {
 			symMap.put(valueList[i], symList[i]);
@@ -205,7 +201,7 @@ public class Tools {
         // -- 5. the display and interactive controls -------------------------
         
         Display d = new Display(vis);
-        d.setSize(720, 500); // set display size
+        d.setSize(900, 700); // set display size
         // drag individual items around
         d.addControlListener(new SubtreeDragControl()); // prije DragControl()
         // pan with left-click drag on background

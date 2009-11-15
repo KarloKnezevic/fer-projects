@@ -52,9 +52,18 @@ terminal 	CONST_STR;
 
 /* Non terminals */
 non terminal	program, ext_declarations, ext_declaration;
-non terminal	func_def, argdef_list, argdef;
-
+non terminal	function, func_def, argdef_list, argdef;
+non terminal	var_dec, var_def, array_def, array_dim;
+non terminal	code_block, code_stms, code_stm;
 non terminal	type_specifier;
+non terminal	for_loop, for_loop_ctrl, for_ctrl_step, for_ctrl_cond, for_ctrl_init;
+non terminal	while_loop, do_while_loop;
+non terminal	if_cond ;
+non terminal	func_call, func_call_args;
+non terminal	expr;
+non terminal	constant;
+non terminal	vitem; // konstanta, idn ili poziv funkcije
+
 /* Precedences */
 
 /* ... */
@@ -67,19 +76,96 @@ ext_declarations 	::= ext_declaration:n1 ext_declarations:n2
 			{: RESULT = new TreeNode("ext_declarations", new Object[]{n1, n2}); :} ;
 
 ext_declarations	::= ext_declaration:n1 {: RESULT = new TreeNode("ext_declarations", new Object[]{n1}); :} ;
-ext_declaration	 	::= func_def:n1 {: RESULT = new TreeNode("ext_declaration", new Object[]{n1}); :} ;
+ext_declaration	 	::= function:n1 {: RESULT = new TreeNode("ext_declaration", new Object[]{n1}); :} ;
+ext_declaration	 	::= var_dec:n1 {: RESULT = new TreeNode("ext_declaration", new Object[]{n1}); :} ;
 
-func_def	::= type_specifier:n1 IDN:n2 OBLA_L:n3 argdef_list:n4 OBLA_D:n5 TOCKAZAREZ:n6	// definicija s argumentima
-		{: RESULT = new TreeNode("func_def", new Object[]{n1,n2,n3,n4,n5,n6}); :} ;
-func_def	::= type_specifier:n1 IDN:n2 OBLA_L:n3 OBLA_D:n4 TOCKAZAREZ:n5			// definicija bez argumenata
+/***********	DEKLARACIJA/DEFINICIJA FUNKCIJA 	***********/
+function	::= func_def:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("function", new Object[]{n1, n2}); :} ;
+function	::= func_def:n1 code_block:n2 
+		{: RESULT = new TreeNode("function", new Object[]{n1,n2}); :} ;
+
+func_def	::= type_specifier:n1 IDN:n2 OBLA_L:n3 argdef_list:n4 OBLA_D:n5 	// definicija s argumentima
 		{: RESULT = new TreeNode("func_def", new Object[]{n1,n2,n3,n4,n5}); :} ;
+func_def	::= type_specifier:n1 IDN:n2 OBLA_L:n3 OBLA_D:n4 			// definicija bez argumenata
+		{: RESULT = new TreeNode("func_def", new Object[]{n1,n2,n3,n4}); :} ;
 
 argdef_list	::= argdef:n1 {: RESULT = new TreeNode("argdef_list", new Object[]{n1}); :} ;
 argdef_list	::= argdef:n1 ZAREZ:n2 argdef_list:n3 {: RESULT = new TreeNode("argdef_list", new Object[]{n1,n2,n3}); :} ;
 
-argdef	::= type_specifier:n1 IDN:n2 {: RESULT = new TreeNode("argdef", new Object[]{n1,n2}); :} ;
+argdef		::= type_specifier:n1 IDN:n2 {: RESULT = new TreeNode("argdef", new Object[]{n1,n2}); :} ;
+
+/***********	DEKLARACIJA/DEFINICIJA VARIJABLI 	***********/
+var_dec		::= var_def:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("var_dec", new Object[]{n1,n2}); :} ;
+var_dec		::= array_def:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("var_dec", new Object[]{n1,n2}); :} ;
+var_dec		::= var_def:n1 ASSINGMENT:n2 expr:n3 TOCKAZAREZ:n4			//inicijalizacija usput! 
+		{: RESULT = new TreeNode("var_dec", new Object[]{n1,n2,n3,n4}); :} ;
+var_def		::= type_specifier:n1 IDN:n2 {: RESULT = new TreeNode("var_def", new Object[]{n1,n2}); :} ;
+array_def	::= type_specifier:n1 IDN:n2 array_dim:n3 {: RESULT = new TreeNode("array_def", new Object[]{n1,n2,n3}); :} ;
+array_dim	::= UGLATA_L:n1 CONST_INT:n2 UGLATA_D:n3 {: RESULT = new TreeNode("array_dim", new Object[]{n1,n2,n3}); :} ;
+array_dim	::= UGLATA_L:n1 CONST_INT:n2 UGLATA_D:n3 array_dim:n4
+		{: RESULT = new TreeNode("array_dim", new Object[]{n1,n2,n3,n4}); :} ;
+
+/***********	SKUP NAREDBI 	***********/
+code_block	::= VITICASTA_L:n1 code_stms:n2 VITICASTA_D:n3 				// ne zavrsava s ;
+		{: RESULT = new TreeNode("code_block", new Object[]{n1,n2,n3}); :} ;
+
+code_stms	::= code_stm:n1 code_stms:n2 {: RESULT = new TreeNode("code_stms", new Object[]{n1,n2}); :} ;
+code_stms	::= code_stm:n1 {: RESULT = new TreeNode("code_stms", new Object[]{n1}); :} ;
+
+code_stm	::= for_loop:n1 {: RESULT = new TreeNode("code_stm", new Object[]{n1}); :} ;
+code_stm	::= while_loop:n1 {: RESULT = new TreeNode("code_stm", new Object[]{n1}); :} ;
+code_stm	::= do_while_loop:n1 {: RESULT = new TreeNode("code_stm", new Object[]{n1}); :} ;
+code_stm	::= if_cond:n1 {: RESULT = new TreeNode("code_stm", new Object[]{n1}); :} ;
+code_stm	::= expr:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("code_stm", new Object[]{n1,n2}); :} ;
+code_stm	::= BREAK:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("code_stm", new Object[]{n1,n2}); :} ;
+code_stm	::= CONTINUE:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("code_stm", new Object[]{n1,n2}); :} ;
+code_stm	::= RETURN:n1 TOCKAZAREZ:n2 {: RESULT = new TreeNode("code_stm", new Object[]{n1,n2}); :} ;
+code_stm	::= RETURN:n1 expr:n2 TOCKAZAREZ:n3 {: RESULT = new TreeNode("code_stm", new Object[]{n1,n2,n3}); :} ;
+code_stm	::= var_dec:n1 {: RESULT = new TreeNode("code_stm", new Object[]{n1}); :} ;
+
+/***********	FOR PETLJA 	***********/
+for_loop	::= FOR:n1 OBLA_L:n2 for_loop_ctrl:n3 OBLA_D:n4 code_block:n5
+		{: RESULT = new TreeNode("for_loop", new Object[]{n1,n2,n3,n4,n5}); :} ;
+for_loop	::= FOR:n1 OBLA_L:n2 for_loop_ctrl:n3 OBLA_D:n4 code_stm:n5
+		{: RESULT = new TreeNode("for_loop", new Object[]{n1,n2,n3,n4,n5}); :} ;
+for_loop_ctrl 	::= for_ctrl_init:n1 for_ctrl_cond:n2 for_ctrl_step:n3 
+		{: RESULT = new TreeNode("for_loop_ctrl", new Object[]{n1,n2,n3}); :} ;
+for_ctrl_init	::= IDN:n1 ASSINGMENT:n2 vitem:n3 TOCKAZAREZ:n4
+		{: RESULT = new TreeNode("for_ctrl_init", new Object[]{n1,n2,n3,n4}); :} ;
+for_ctrl_init	::= TOCKAZAREZ:n1
+		{: RESULT = new TreeNode("for_ctrl_init", new Object[]{n1}); :} ;
+for_ctrl_cond	::= expr:n1
+		{: RESULT = new TreeNode("for_ctrl_cond", new Object[]{n1}); :} ;
+for_ctrl_step	::= TOCKAZAREZ:n1 expr:n2
+		{: RESULT = new TreeNode("for_ctrl_step", new Object[]{n1,n2}); :} ;
+for_ctrl_step	::= TOCKAZAREZ:n1
+		{: RESULT = new TreeNode("for_ctrl_step", new Object[]{n1}); :} ;
+
+/***********	WHILE PETLJA 	***********/
+while_loop	::= WHILE:n1 OBLA_L:n2 expr:n3 OBLA_D:n4 code_block:n5
+		{: RESULT = new TreeNode("while_loop", new Object[]{n1,n2,n3,n4,n5}); :} ;
+while_loop	::= WHILE:n1 OBLA_L:n2 expr:n3 OBLA_D:n4 code_stm:n5
+		{: RESULT = new TreeNode("while_loop", new Object[]{n1,n2,n3,n4,n5}); :} ;
+do_while_loop	::= DO:n1 code_block:n2 WHILE:n3 OBLA_L:n4 expr:n5 OBLA_D:n6 TOCKAZAREZ:n7
+		{: RESULT = new TreeNode("do_while_loop", new Object[]{n1,n2,n3,n4,n5,n6,n7}); :} ;
 
 
+/***********	IF ELSE 	***********/
+if_cond		::= IF:n1 OBLA_L:n2 expr:n3 OBLA_D:n4 code_block:n5				// if (s blokom)
+		{: RESULT = new TreeNode("if_cond", new Object[]{n1,n2,n3,n4,n5}); :} ;
+if_cond		::= IF:n1 OBLA_L:n2 expr:n3 OBLA_D:n4 code_block:n5 ELSE:n6 code_block:n7 	// if-else
+		{: RESULT = new TreeNode("if_cond", new Object[]{n1,n2,n3,n4,n5,n6,n7}); :} ;
+if_cond		::= IF:n1 OBLA_L:n2 expr:n3 OBLA_D:n4 code_stm:n5				// if (jedna naredba)
+		{: RESULT = new TreeNode("if_cond", new Object[]{n1,n2,n3,n4,n5}); :} ;
+
+func_call	::= IDN:n1 OBLA_L:n2 func_call_args:n3 OBLA_D:n4
+		{: RESULT = new TreeNode("func_call", new Object[]{n1,n2,n3,n4}); :} ;
+func_call	::= IDN:n1 OBLA_L:n2 OBLA_D:n3
+		{: RESULT = new TreeNode("func_call", new Object[]{n1,n2,n3}); :} ;
+func_call_args	::= expr:n1 {: RESULT = new TreeNode("func_call_args", new Object[]{n1}); :} ;
+func_call_args	::= expr:n1 ZAREZ:n2 func_call_args:n3 
+		{: RESULT = new TreeNode("func_call_args", new Object[]{n1,n2,n3}); :} ;
+ 
 
 type_specifier	::= INT:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
 type_specifier	::= CHAR:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
@@ -87,11 +173,16 @@ type_specifier	::= FLOAT:n1 {: RESULT = new TreeNode("type_specifier", new Objec
 type_specifier	::= BOOLEAN:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
 type_specifier	::= VOID:n1 {: RESULT = new TreeNode("type_specifier", new Object[]{n1}); :} ;
 
+constant	::= CONST_FLOAT:n1 {: RESULT = new TreeNode("constant", new Object[]{n1}); :} ;
+constant	::= CONST_INT:n1 {: RESULT = new TreeNode("constant", new Object[]{n1}); :} ;
+constant	::= CONST_CHAR:n1 {: RESULT = new TreeNode("constant", new Object[]{n1}); :} ;
+constant	::= CONST_STR:n1 {: RESULT = new TreeNode("constant", new Object[]{n1}); :} ;
 
-/*
-program ::= 	IDN:n1 operator:n2 IDN:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}
-	|	program:n1 operator:n2 CONST_INT:n3 {: RESULT = new TreeNode("program", new Object[]{n1, n2, n3}); :}; 
+vitem		::= IDN:n1 {: RESULT = new TreeNode("vitem", new Object[]{n1}); :} ;
+vitem		::= constant:n1 {: RESULT = new TreeNode("vitem", new Object[]{n1}); :} ;
+vitem		::= func_call:n1 {: RESULT = new TreeNode("vitem", new Object[]{n1}); :} ;
 
-operator ::=	PLUS:n1 {: RESULT = new TreeNode("operator", new Object[]{n1}); :};
-operator ::=	MUL:n1 {: RESULT = new TreeNode("operator", new Object[]{n1}); :};
-*/
+/***********	IZRAZI (secer za kraj) 	***********/
+expr		::= vitem:n1 {: RESULT = new TreeNode("expr", new Object[]{n1}); :} ;
+
+
