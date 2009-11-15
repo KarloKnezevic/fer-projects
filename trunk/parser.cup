@@ -60,7 +60,7 @@ non terminal	for_loop, for_loop_ctrl, for_ctrl_step, for_ctrl_cond, for_ctrl_ini
 non terminal	while_loop, do_while_loop;
 non terminal	if_cond ;
 non terminal	func_call, func_call_args;
-non terminal	expr;
+non terminal	expr,expr1,expr2,expr3,expr4,expr5,expr6,expr7,expr8,expr9;
 non terminal	constant;
 non terminal	vitem; // konstanta, idn ili poziv funkcije
 
@@ -108,6 +108,8 @@ array_dim	::= UGLATA_L:n1 CONST_INT:n2 UGLATA_D:n3 array_dim:n4
 /***********	SKUP NAREDBI 	***********/
 code_block	::= VITICASTA_L:n1 code_stms:n2 VITICASTA_D:n3 				// ne zavrsava s ;
 		{: RESULT = new TreeNode("code_block", new Object[]{n1,n2,n3}); :} ;
+code_block	::= VITICASTA_L:n1 VITICASTA_D:n2
+		{: RESULT = new TreeNode("code_block", new Object[]{n1,n2}); :} ;
 
 code_stms	::= code_stm:n1 code_stms:n2 {: RESULT = new TreeNode("code_stms", new Object[]{n1,n2}); :} ;
 code_stms	::= code_stm:n1 {: RESULT = new TreeNode("code_stms", new Object[]{n1}); :} ;
@@ -183,6 +185,39 @@ vitem		::= constant:n1 {: RESULT = new TreeNode("vitem", new Object[]{n1}); :} ;
 vitem		::= func_call:n1 {: RESULT = new TreeNode("vitem", new Object[]{n1}); :} ;
 
 /***********	IZRAZI (secer za kraj) 	***********/
-expr		::= vitem:n1 {: RESULT = new TreeNode("expr", new Object[]{n1}); :} ;
+/*expr		::= vitem:n1 {: RESULT = new TreeNode("expr", new Object[]{n1}); :} ;*/
+expr		::= expr1:n1 {: RESULT = new TreeNode("expr", new Object[]{n1}); :} ;
 
+expr1	::= IDN:n1 ASSINGMENT:n2 expr1:n3 {: RESULT = new TreeNode("expr1", new Object[]{n1,n2,n3}); :} ;
+expr1	::= expr2:n1 {: RESULT = new TreeNode("expr1", new Object[]{n1}); :} ;
 
+expr2	::= expr2:n1 OR:n2 expr3:n3  {: RESULT = new TreeNode("expr2", new Object[]{n1,n2,n3}); :} ;
+expr2	::= expr3:n1 {: RESULT = new TreeNode("expr2", new Object[]{n1}); :} ;
+
+expr3	::= expr3:n1 AND:n2 expr4:n3  {: RESULT = new TreeNode("expr3", new Object[]{n1,n2,n3}); :} ;
+expr3	::= expr4:n1 {: RESULT = new TreeNode("expr3", new Object[]{n1}); :} ;
+
+expr4	::= expr4:n1 EQUAL:n2 expr5:n3  {: RESULT = new TreeNode("expr4", new Object[]{n1,n2,n3}); :} ;
+expr4	::= expr4:n1 NOTEQ:n2 expr5:n3  {: RESULT = new TreeNode("expr4", new Object[]{n1,n2,n3}); :} ;
+expr4	::= expr5:n1 {: RESULT = new TreeNode("expr4", new Object[]{n1}); :} ;
+
+expr5	::= expr5:n1 LESS:n2 expr6:n3  {: RESULT = new TreeNode("expr5", new Object[]{n1,n2,n3}); :} ;
+expr5	::= expr5:n1 GREATER:n2 expr6:n3  {: RESULT = new TreeNode("expr5", new Object[]{n1,n2,n3}); :} ;
+expr5	::= expr5:n1 LEQ:n2 expr6:n3  {: RESULT = new TreeNode("expr5", new Object[]{n1,n2,n3}); :} ;
+expr5	::= expr5:n1 GEQ:n2 expr6:n3  {: RESULT = new TreeNode("expr5", new Object[]{n1,n2,n3}); :} ;
+expr5	::= expr6:n1 {: RESULT = new TreeNode("expr5", new Object[]{n1}); :} ;
+
+expr6	::= expr6:n1 PLUS:n2 expr7:n3  {: RESULT = new TreeNode("expr6", new Object[]{n1,n2,n3}); :} ;
+expr6	::= expr6:n1 MINUS:n2 expr7:n3  {: RESULT = new TreeNode("expr6", new Object[]{n1,n2,n3}); :} ;
+expr6	::= expr7:n1 {: RESULT = new TreeNode("expr6", new Object[]{n1}); :} ;
+
+expr7	::= expr7:n1 MUL:n2 expr8:n3  {: RESULT = new TreeNode("expr7", new Object[]{n1,n2,n3}); :} ;
+expr7	::= expr7:n1 DIV:n2 expr8:n3  {: RESULT = new TreeNode("expr7", new Object[]{n1,n2,n3}); :} ;
+expr7	::= expr7:n1 MOD:n2 expr8:n3  {: RESULT = new TreeNode("expr7", new Object[]{n1,n2,n3}); :} ;
+expr7	::= expr8:n1 {: RESULT = new TreeNode("expr7", new Object[]{n1}); :} ;
+
+expr8	::= NOT:n1 expr8:n2  {: RESULT = new TreeNode("expr8", new Object[]{n1,n2}); :} ;
+expr8	::= expr9:n1 {: RESULT = new TreeNode("expr8", new Object[]{n1}); :} ;
+
+//expr9	::= OBLA_D:n1 expr1:n2 OBLA_L:n3 {: RESULT = new TreeNode("expr9", new Object[]{n1,n2,n3}); :} ;   ???????????
+expr9	::= vitem:n1 {: RESULT = new TreeNode("expr9", new Object[]{n1}); :} ;
