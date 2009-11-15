@@ -19,7 +19,7 @@ public class Compiler {
 		List<Token> listaTokena = new LinkedList<Token>();
 		
 		Lexer lexer = new Lexer(in, symbolTable, listaTokena);
-		
+
 		Parser parser = new Parser(lexer);
 		
 		Symbol start = parser.parse();

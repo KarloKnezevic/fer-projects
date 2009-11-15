@@ -76,7 +76,7 @@ public class Tools {
 				sym.IF, sym.ELSE,
 				sym.DO, sym.WHILE, sym.FOR, sym.BREAK, sym.CONTINUE,
 				sym.ZAREZ, sym.TOCKA, sym.TOCKAZAREZ,
-				sym.OBLA_D, sym.OBLA_L, sym.UGLATA_D, sym.UGLATA_L, sym.VITICASTA_D, sym.VITICASTA_L
+				sym.OBLA_L, sym.OBLA_D, sym.UGLATA_L, sym.UGLATA_D, sym.VITICASTA_L, sym.VITICASTA_D
 				};
 		String[] valueList = {
 				"+", "-", "*", "/", "%", "&&", "||", "=",
@@ -207,7 +207,7 @@ public class Tools {
         Display d = new Display(vis);
         d.setSize(720, 500); // set display size
         // drag individual items around
-        d.addControlListener(new DragControl());
+        d.addControlListener(new SubtreeDragControl()); // prije DragControl()
         // pan with left-click drag on background
         d.addControlListener(new PanControl()); 
         // zoom with right-click drag
