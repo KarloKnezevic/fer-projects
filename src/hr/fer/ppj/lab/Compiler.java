@@ -1,5 +1,7 @@
 package hr.fer.ppj.lab;
 
+import hr.fer.ppj.lab.semantic.SemanticAnalyzer;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -25,6 +27,10 @@ public class Compiler {
 		Symbol start = parser.parse();
 		
 		Tools.visualizeParseTree(start);
+		
+		SemanticAnalyzer sema = new SemanticAnalyzer();
+		sema.analyze((TreeNode)start.value);
+		
 		return Tools.getTableModel(listaTokena, symbolTable);
 
 	}

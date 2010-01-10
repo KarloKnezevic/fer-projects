@@ -112,27 +112,16 @@ public class Tools {
 		return sym.IDN;
 	}
 	
-	public static void addVNode(Graph graph, Node parent, String child) {
-		Node n = graph.addNode();
-		n.set("name", child);
-		n.set("gender", "F");
-		graph.addEdge(parent, n);
-		return;
-	}
-	
 	public static void addVNode(Graph graph, Node parent, TreeNode child) {
 		Node n = graph.addNode();
 		n.set("name", child.nodeValue);
-		n.set("gender", "M");
-		if(parent!=null) graph.addEdge(parent, n);
-		for(Object o : child.children) {
-			if(o instanceof String) {
-				addVNode(graph, n, (String)o);
-			} else {
-				addVNode(graph, n, (TreeNode)o);
-			}
+		if(child.hasChildren()) {
+			n.set("gender", "M");
+		} else {
+			n.set("gender", "F");
 		}
-		return;
+		if(parent!=null) graph.addEdge(parent, n);
+		for(int i = 0; i<child.children.length; i++) addVNode(graph, n, child.getChild(i));
 	}
 
 	public static void visualizeParseTree(Symbol start) {
