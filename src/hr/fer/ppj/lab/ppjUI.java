@@ -1,9 +1,14 @@
 package hr.fer.ppj.lab;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -46,10 +51,66 @@ public class ppjUI extends javax.swing.JFrame {
 		jMenuItem1 = new javax.swing.JMenuItem();
 		jMenuItem2 = new javax.swing.JMenuItem();
 
-		
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		jScrollPane1.setViewportView(Table);
+		JTabbedPane tabbedPane = new JTabbedPane();
 
+		// tab code
+		JPanel code = new JPanel();
+		code.setLayout(new BorderLayout());
+		JTextArea codeText = new JTextArea();
+		code.add(codeText, BorderLayout.CENTER);
+		JButton start = new JButton();
+		start.setText("Kompajliraj");
+		start.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		code.add(start, BorderLayout.SOUTH);
+
+		// tab semanticka analiza
+		JPanel semantAn = new JPanel();
+		semantAn.setLayout(new BorderLayout());
+		JTextArea semText = new JTextArea();
+		semantAn.add(semText, BorderLayout.CENTER);
+
+		// tab console
+		JPanel console = new JPanel();
+		console.setLayout(new BorderLayout());
+		JTextArea conText = new JTextArea();
+		console.add(conText, BorderLayout.CENTER);
+
+		// tab ciljni program
+		JPanel target = new JPanel();
+		target.setLayout(new BorderLayout());
+		JTextArea tarText = new JTextArea();
+		target.add(tarText, BorderLayout.CENTER);
+		JButton pokreni = new JButton();
+		pokreni.setText("Pokreni");
+		pokreni.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		target.add(pokreni, BorderLayout.SOUTH);
+		
+		
+		jScrollPane1.setViewportView(Table);
+		
+		
+		// dodavanje tabova
+		tabbedPane.addTab("Kod", code);
+		tabbedPane.addTab("Leksemi", jScrollPane1);
+		tabbedPane.addTab("Semanticka analiza", semantAn);
+		tabbedPane.addTab("Ciljni program", target);
+		tabbedPane.addTab("Console", console);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		
 		menuFile.setText("File");
 		menuFile.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -80,23 +141,24 @@ public class ppjUI extends javax.swing.JFrame {
 		jMenuBar1.add(menuFile);
 
 		setJMenuBar(jMenuBar1);
-		
+
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620,
+				tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 620,
 				javax.swing.GroupLayout.PREFERRED_SIZE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220,
+				tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 220,
 				Short.MAX_VALUE));
-		
+
 		pack();
 	}// </editor-fold>
 
-	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) throws Exception {
+	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)
+			throws Exception {
 		javax.swing.JFileChooser jfc = new javax.swing.JFileChooser();
 		jfc.setCurrentDirectory(new java.io.File("C:\\"));
 		if (jfc.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
