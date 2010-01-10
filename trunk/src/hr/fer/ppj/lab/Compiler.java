@@ -1,6 +1,8 @@
 package hr.fer.ppj.lab;
 
+import hr.fer.ppj.lab.semantic.Scope;
 import hr.fer.ppj.lab.semantic.SemanticAnalyzer;
+import hr.fer.ppj.lab.semantic.SemanticError;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,8 +30,18 @@ public class Compiler {
 		
 		Tools.visualizeParseTree(start);
 		
-		SemanticAnalyzer sema = new SemanticAnalyzer();
-		sema.analyze((TreeNode)start.value);
+		SemanticAnalyzer sema = new SemanticAnalyzer((TreeNode)start.value);
+		while(true) {
+			try {
+				sema.analyze();
+				break;
+			} catch (SemanticError e) {
+				System.out.println(e.msg);
+				continue;
+			}
+		}
+			
+		for(Scope s : sema.allScopes) System.out.println(s);
 		
 		return Tools.getTableModel(listaTokena, symbolTable);
 
