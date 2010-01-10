@@ -154,7 +154,6 @@ public class Tools {
         // -- 4. the processing actions ---------------------------------------
         
         // create our nominal color palette
-        // pink for females, baby blue for males
         int[] palette = new int[] {
             ColorLib.rgb(70,182,157), ColorLib.rgb(152,235,175)
         };

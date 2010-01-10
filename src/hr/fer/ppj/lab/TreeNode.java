@@ -4,6 +4,7 @@ public class TreeNode {
 	
 	public String nodeValue;
 	public Object[] children;
+	public Token token;
 	
 	public TreeNode (String value, Object[] children) {
 		nodeValue = value;
@@ -22,4 +23,5 @@ public class TreeNode {
 		if(children == null || children.length == 0) return false;
 		return true;
 	}
+	
 }

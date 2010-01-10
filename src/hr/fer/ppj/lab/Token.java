@@ -57,6 +57,7 @@ public class Token extends Symbol {
 	
 	public void setSymbolValue(String value) {
 		TreeNode node = new TreeNode(value, new TreeNode[]{});
+		node.token = this;
 		this.value = node;
 	}
 	
