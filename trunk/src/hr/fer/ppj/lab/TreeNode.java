@@ -13,4 +13,13 @@ public class TreeNode {
 	public String toString() {
 		return nodeValue;
 	}
+	
+	public TreeNode getChild(int i) {
+		return (TreeNode)children[i];
+	}
+	
+	public boolean hasChildren() {
+		if(children == null || children.length == 0) return false;
+		return true;
+	}
 }
