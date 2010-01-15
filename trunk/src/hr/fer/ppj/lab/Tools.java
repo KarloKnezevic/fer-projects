@@ -202,7 +202,7 @@ public class Tools {
         // create a new window to hold the visualization
         JFrame frame = new JFrame("Stablo parsiranja");
         // ensure application exits when window is closed
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(d);
         frame.pack();           // layout components in window
         frame.setVisible(true); // show the window
