@@ -4,47 +4,39 @@ import hr.fer.ppj.lab.semantic.Scope;
 import hr.fer.ppj.lab.semantic.SemanticAnalyzer;
 import hr.fer.ppj.lab.semantic.SemanticError;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
 import java_cup.runtime.Symbol;
 
-import javax.swing.table.TableModel;
-
 public class Compiler {
 	
-	public static TableModel getTableModel(File inputFile) throws Exception {
-		InputStream in = new FileInputStream(inputFile);
-		
-		Table symbolTable = new Table();
-		List<Token> listaTokena = new LinkedList<Token>();
+	public List<Token> listaTokena;
+	public Table symbolTable;
+	public Symbol start;
+	public SemanticAnalyzer semanticAnalyzer;
+	public List<String> errorMsgs;
+	
+	public void compile(InputStream in) throws Exception {
+		errorMsgs = new LinkedList<String>();
+		symbolTable = new Table();
+		listaTokena = new LinkedList<Token>();
 		
 		Lexer lexer = new Lexer(in, symbolTable, listaTokena);
-
 		Parser parser = new Parser(lexer);
+		start = parser.parse();
+		semanticAnalyzer = new SemanticAnalyzer((TreeNode)start.value);
 		
-		Symbol start = parser.parse();
-		
-		Tools.visualizeParseTree(start);
-		
-		SemanticAnalyzer sema = new SemanticAnalyzer((TreeNode)start.value);
 		while(true) {
 			try {
-				sema.analyze();
+				semanticAnalyzer.analyze();
 				break;
 			} catch (SemanticError e) {
-				System.out.println(e.msg);
+				errorMsgs.add(e.msg);
 				continue;
 			}
 		}
-			
-		for(Scope s : sema.allScopes) System.out.println(s);
-		
-		return Tools.getTableModel(listaTokena, symbolTable);
-
 	}
 
 }

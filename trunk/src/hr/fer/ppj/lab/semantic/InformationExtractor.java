@@ -38,6 +38,18 @@ public class InformationExtractor {
 		return null;
 	}
 	
+	public static String getVariableTypeString(TreeNode node) {
+		String value=null;
+		if(node.nodeValue.equals("var_dec")) {
+			value = node.getChild(0).getChild(0).getChild(0).nodeValue;
+		}
+		if(node.nodeValue.equals("argdef")) {
+			value = node.getChild(0).getChild(0).nodeValue;
+		}
+		if(value==null) return null;
+		return value;
+	}
+	
 	/**
 	 * @param node tipa "function"
 	 * @return tip vrijednosti koju vraca funkcija
@@ -50,6 +62,13 @@ public class InformationExtractor {
 			if(value.equals("char")) return Scope.Type.CHAR;
 			if(value.equals("boolean")) return Scope.Type.BOOLEAN;
 			if(value.equals("void")) return Scope.Type.VOID;
+		}
+		return null;
+	}
+	
+	public static String getFunctionReturnTypeString(TreeNode node) {
+		if(node.nodeValue.equals("function")) {
+			return node.getChild(0).getChild(0).getChild(0).nodeValue;
 		}
 		return null;
 	}

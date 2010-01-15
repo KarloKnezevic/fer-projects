@@ -8,6 +8,7 @@ public class Scope {
 	public enum Type {BOOLEAN, INT, FLOAT, CHAR, VOID};
 	
 	public HashMap<String, Type> typeMap = new HashMap<String, Type>();
+	public HashMap<String, Integer> idMap = new HashMap<String, Integer>();
 	public String name;
 	public TreeNode scopeEnd;
 	
@@ -21,8 +22,13 @@ public class Scope {
 		return typeMap.containsKey(var);
 	}
 	
-	public void addVariable(String name, Type type) {
+	public void addVariable(String name, Type type, int brojac) {
 		typeMap.put(name, type);
+		idMap.put(name, brojac);
+	}
+	
+	public int getVariableId(String var) {
+		return idMap.get(var);
 	}
 	
 	public String toString() {
