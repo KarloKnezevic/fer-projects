@@ -1,11 +1,18 @@
 package hr.fer.ppj.lab;
 
+import hr.fer.ppj.lab.semantic.Scope;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -19,6 +26,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class ppjUI extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
+	Compiler compiler;
 
 	/** Creates new form ppjUI */
 	public ppjUI() {
@@ -56,16 +64,27 @@ public class ppjUI extends javax.swing.JFrame {
 		// tab code
 		JPanel code = new JPanel();
 		code.setLayout(new BorderLayout());
-		JTextArea codeText = new JTextArea();
-		code.add(codeText, BorderLayout.CENTER);
+		sourceCode = new JTextArea();
+		sourceCode.setText("\nint main() {\n\n }");
+		code.add(sourceCode, BorderLayout.CENTER);
+		sourceCode.setTabSize(3);
 		JButton start = new JButton();
 		start.setText("Kompajliraj");
 		start.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				String source = sourceCode.getText();
+				ByteArrayInputStream in = new ByteArrayInputStream(source.getBytes());
+				compiler = new Compiler();
+				try {
+					compiler.compile(in);
+				} catch (Exception e1) {
+					//e1.printStackTrace();
+					JFrame frame= new JFrame();
+					JOptionPane.showMessageDialog(frame, "Dogodila se greška! (Negdje...)");
+				}
+				popuniPodatke();
 			}
 		});
 		code.add(start, BorderLayout.SOUTH);
@@ -73,8 +92,9 @@ public class ppjUI extends javax.swing.JFrame {
 		// tab semanticka analiza
 		JPanel semantAn = new JPanel();
 		semantAn.setLayout(new BorderLayout());
-		JTextArea semText = new JTextArea();
-		semantAn.add(semText, BorderLayout.CENTER);
+		semanticOutput = new JTextArea();
+		semanticOutput.setEditable(false);
+		semantAn.add(semanticOutput, BorderLayout.CENTER);
 
 		// tab console
 		JPanel console = new JPanel();
@@ -85,15 +105,15 @@ public class ppjUI extends javax.swing.JFrame {
 		// tab ciljni program
 		JPanel target = new JPanel();
 		target.setLayout(new BorderLayout());
-		JTextArea tarText = new JTextArea();
-		target.add(tarText, BorderLayout.CENTER);
+		targetBytecode = new JTextArea();
+		target.add(targetBytecode, BorderLayout.CENTER);
 		JButton pokreni = new JButton();
 		pokreni.setText("Pokreni");
 		pokreni.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				
 
 			}
 		});
@@ -156,6 +176,16 @@ public class ppjUI extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
+	
+	private void popuniPodatke() {
+		this.Table.setModel(Tools.getTableModel(compiler.listaTokena, compiler.symbolTable));
+		Tools.visualizeParseTree(compiler.start);
+		semanticOutput.setText("");
+		for(String err : compiler.errorMsgs) semanticOutput.append(err+"\n");
+		semanticOutput.append("\n");
+		for(Scope s : compiler.semanticAnalyzer.allScopes) semanticOutput.append(s.toString()+"\n");
+		targetBytecode.setText(compiler.semanticAnalyzer.bytecode.toString());
+	}
 
 	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)
 			throws Exception {
@@ -164,7 +194,10 @@ public class ppjUI extends javax.swing.JFrame {
 		if (jfc.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
 			java.io.File inFile = jfc.getSelectedFile();
 			try {
-				this.Table.setModel(Compiler.getTableModel(inFile));
+				compiler = new Compiler();
+				InputStream in = new FileInputStream(inFile);
+				compiler.compile(in);
+				popuniPodatke();
 			} catch (IOException e) {
 				// greška
 			}
@@ -198,6 +231,9 @@ public class ppjUI extends javax.swing.JFrame {
 	private javax.swing.JMenuItem jMenuItem2;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JMenu menuFile;
+	private JTextArea sourceCode;
+	private JTextArea targetBytecode;
+	private JTextArea semanticOutput;
 	// End of variables declaration
 
 }
