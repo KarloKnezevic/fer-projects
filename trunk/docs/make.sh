@@ -1,0 +1,4 @@
+pdflatex dokumentacija
+bibtex dokumentacija
+pdflatex dokumentacija
+pdflatex dokumentacija
