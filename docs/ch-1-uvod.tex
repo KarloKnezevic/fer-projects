@@ -1,0 +1,34 @@
+\chapter{Jezični procesori}
+
+\section{Uvod}
+
+Cilj jezičnog procesora je prevođenje višeg jezika, koji je razumljiv i ekspresivan, u niži jezik. Jezik kojeg prevodimo nazivamo izvorni jezik, a jezik u koji prevodimo nazivamo ciljni jezik. Jezični procesor je i sam program i jezik u kojem je napisan naziva se jezik izgradnje.
+
+Kako bi se olakšala izgradnja jezičnog procesora njegov zadatak se rastavlja u više podzadataka koji slijede jedan iza drugoga: leksička analiza, sintaksna analiza, semantička analiza i sinteza (generiranje koda u ciljnom jeziku). Svaki od koraka ćemo ukratko opisati u uvodima drugih poglavlja.
+
+\section{Naš jezični procesor}
+
+Cilj nam je izgraditi jezični procesor koji prevodi izvorni jezik inspiriran C-om u ciljni jezik JVM \emph{bytecode}. Jezik izgradnje je programski jezik Java.
+
+Ciljni jezik našeg jezičnog procesora je skoro pravi podskup programskog jezika C o kojem ne treba mnogo govoriti. 
+U nastavku ćemo objasniti bitne razlike. Ciljni jezik je jezik koji razumije \emph{Java Vritual Machine}. Java je objektno-orijentirani jezik koje se također (slučajno) izvršava na JVM-u. Na JVM možemo gledati kao na sloj iznad same fizičke arhitekture računala pa to omogućava prenosivost programa.
+
+Koristili smo pomoć nekih alata prilikom izrade leksičkog i sintaksnog analizatora. To su jFlex (generator leksičkog analizatora) i CUP (generator LR parsera).
+
+\section{Neformalni opis izvornog jezika}
+
+Kao što je rečeno, izvorni jezik je pojednostavljeni oblik programskog jezika C.
+
+Tipovi podataka koje podržava su \texttt{int}, \texttt{float}, \texttt{char}, \texttt{boolean} i moguće je da 
+funkcije ne vraćaju nikakav tip podataka tj. \texttt{void}. Deklariranje pokazivača nije moguće, no moguće je deklarirati
+polja.
+
+Za kontrolu toka je moguće koristiti petlje \texttt{for}, \texttt{while} i \texttt{do-while} i grananje \texttt{if-else}. 
+I unutar petlji su mogući \texttt{break} i \texttt{continue}.
+Ostalo nije podržano npr. \texttt{switch-case}, \texttt{goto}, \texttt{else if}.
+
+Od operatora su podržani binarni: \texttt{<}  \texttt{>}  \texttt{==}  \texttt{<=}  \texttt{>=}  \texttt{!=}  \texttt{\&\&}  \texttt{||}  \texttt{!}  \texttt{+}  \texttt{-}  \texttt{*}  \texttt{/}  \texttt{\%}  \texttt{=}. Nije moguće koristiti \emph{bitwise} operatore.
+
+Primjer ispravnog programa napisan u izvornom jeziku:
+(primjer neki)
+
