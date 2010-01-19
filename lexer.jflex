@@ -1,6 +1,5 @@
 package hr.fer.ppj.lab;
 
-import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.*; 
 
@@ -69,6 +68,14 @@ import java_cup.runtime.*;
 	  this.tokenList=tokenList;
   }
 
+  public int getCol() {
+          return yycolumn;
+  }
+
+  public int getRow() {
+          return yyline;
+  }
+
 %}
 
 LineTerminator = \r|\n|\r\n
@@ -84,9 +91,9 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 
 Identifier = [:letter:] [:jletterdigit:]* 
 
-Type = "void" | "boolean" | "float" | "int" | "char" | "struct"
+Type = "void" | "boolean" | "float" | "int" | "char" 
 Flow = "continue" | "do" | "else" | "for" | "if" | "break" | "while"
-OtherKeywords = "#include" | "return"
+OtherKeywords = "include" | "return"
 
 Operators = "<" | ">" | "==" | "<=" | ">=" | "!=" | "&&" | "||" | "!" | "+" | "-" | "*" | "/" | "%" | "="
 Special = "{" | "}" | "[" | "]" | "(" | ")" | ";" | "." | ","
@@ -139,6 +146,6 @@ Float = (0 | [1-9][0-9]*) "." [0-9]*
 }
 
 /* error fallback */
-.|\n                             { throw new Error("Illegal character <"+
+.|\n                             { throw new Error("Nepostojeci znak <"+
                                                     yytext()+">"); }
 

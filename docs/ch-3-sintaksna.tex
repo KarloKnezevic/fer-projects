@@ -11,8 +11,6 @@ implementacije, pogodnost za automatsko generiranje parsera iz gramatike itd.
 Naš sintaksni analizator gradi stablo tehnikom odozdo prema gore i spada u LR parsere. Tehnika
 kojom generira tablicu prijelaza iz gramatike koju koristi parser se naziva LALR.
 
-\section{Gramatika}
-
 \section{Implementacija}
 
 U implementaciji smo koristili generator LR parsera CUP koji generira parser napisan u programskom jezik Java.
@@ -27,8 +25,21 @@ U zadnjoj redukciji u nezavršni znak "program", atribut \texttt{value} će sadr
 će vratiti upravo taj vrh s kojim smo zapravo dobili cijelo stablo.
 
 U CUP-u se osim produkcija zadaju i akcije koje se izvrše prilikom primjene redukcije određene produkcije. Upravo
-te akcije koristimo za gradnju stabla pomoću \texttt{TreeNode}-ova. 
+te akcije koristimo za gradnju stabla pomoću \texttt{TreeNode}-ova.
+
+\section{Gramatika}
+
+Gramatika je dana u obliku kojeg prima CUP i može se vidjeti u dodatku A. Prednost operatora je rješenja pomoću CUP-a tako
+da gramatika ostane što jednostavnija.
 
 \section{Primjer izvođenja}
+Pogledajmo primjer izvođenja sintaksne analize za sljedeći jednostavni program:
 
-Kao kod leksičke.
+\lstinputlisting[language=C]{primjer-sintaksna1.c}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=13cm]{primjer-sintaksna1}
+  \caption{Primjer izvođenja sintaksne analize}
+\label{komponente}
+\end{figure}

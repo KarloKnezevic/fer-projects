@@ -99,10 +99,10 @@ public class SemanticAnalyzer {
 	public void newVariableDeclaration(TreeNode node) throws SemanticError {
 		String name = InformationExtractor.getVariableName(node);
 		Scope.Type type = InformationExtractor.getVariableType(node);
-		if(searchForVariable(name) != null) throw new SemanticError(node, "Varijabla " + name + " je već deklarirana!");
+		//if(searchForVariable(name) != null) throw new SemanticError(node, "Varijabla " + name + " je već deklarirana!");
 		if(functionNameExists(name)) throw new SemanticError(node, "Naziv " + name + " se već koristi!");
 		scopes.peek().addVariable(name, type, var_br);
-		if(node.getChild(2).nodeValue.equals("expr")) {
+		if(node.getChild(2)!=null && node.getChild(2).nodeValue.equals("expr")) {
 			generateExpCode(node.getChild(2));
 			addCodeLine("istore_"+var_br);
 		}

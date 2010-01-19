@@ -1,0 +1,12 @@
+public class Program extends java.lang.Object {
+int main();
+  Code:
+   iconst_10
+   istore_1
+   iconst_20
+   istore_2
+   iload_2
+   iload_1
+   iadd
+   istore_3
+}

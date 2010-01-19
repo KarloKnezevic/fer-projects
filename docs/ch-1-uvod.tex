@@ -27,8 +27,9 @@ Za kontrolu toka je moguće koristiti petlje \texttt{for}, \texttt{while} i \tex
 I unutar petlji su mogući \texttt{break} i \texttt{continue}.
 Ostalo nije podržano npr. \texttt{switch-case}, \texttt{goto}, \texttt{else if}.
 
-Od operatora su podržani binarni: \texttt{<}  \texttt{>}  \texttt{==}  \texttt{<=}  \texttt{>=}  \texttt{!=}  \texttt{\&\&}  \texttt{||}  \texttt{!}  \texttt{+}  \texttt{-}  \texttt{*}  \texttt{/}  \texttt{\%}  \texttt{=}. Nije moguće koristiti \emph{bitwise} operatore.
+Od operatora su podržani binarni: \texttt{<}  \texttt{>}  \texttt{==}  \texttt{<=}  \texttt{>=}  \texttt{!=}  \texttt{\&\&}  \texttt{||}  \texttt{!}  \texttt{+}  \texttt{-}  \texttt{*}  \texttt{/}  \texttt{\%}  \texttt{=}. Nije moguće koristiti \emph{bitwise} operatore. Od unarnih operator je podržan samo \texttt{-} i \texttt{!}. Nije moguće deklarirati više varijabli u jednom redu npr.
+\texttt{int a, b, c;}. I nije moguće koristiti pretprocesorske naredbe (\texttt{include} i \texttt{define}).
 
-Primjer ispravnog programa napisan u izvornom jeziku:
-(primjer neki)
+Primjer ispravnog programa napisanog u izvornom jeziku:
+\lstinputlisting[language=C]{primjer-uvod.c}
 
