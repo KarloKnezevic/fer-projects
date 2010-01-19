@@ -30,6 +30,19 @@ koje leksički analizator uđe kad pročita \texttt{"} i dok je u njemu ignorira
 
 \section{Leksemi}
 
+Ovdje je popis svih leksema koje prepoznaje naš jezični prevoditelj. Sintaksa kojom su definirani je ona koju koristi jFlex.
+
+\lstinputlisting{leksemi.jflex}
+
 \section{Primjer izvođenja}
 
-Primjer i prikaz izlaza našeg programa. Screenshot.
+Pogledajmo jednostavan primjer izvođenja leksičke analize nad sljedećim programom:
+
+\lstinputlisting[language=C]{primjer-leksicka1.c}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=13cm]{primjer-leksicka1}
+  \caption{Primjer izvođenja leksičke analize}
+\label{komponente}
+\end{figure}

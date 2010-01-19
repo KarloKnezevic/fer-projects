@@ -1,0 +1,18 @@
+\chapter{Zaključak}
+
+Prevođenje jezika nije jednostavan zadatak i kroz vrijeme su se razvile razne tehnike kojima se pokušava
+olakšati taj proces. Tako se posao podijelio na podzadatke, no i svaki od njih je zahtjevan za implementirati.
+
+Kod leksičke analize se regularni izrazi moraju prevesti u konačne automate, potrebno je minimizirati 
+te automate i simulirati ih. Zbog toga su razvijeni generatori leksičkih analizatora poput jFlexa.
+
+Sintaksnu analizu je još teže implementirati i zato su nastali alati poput CUP-a koji
+iz zadane gramatike generiranju LALR metodom LR parser. LALR parseri su jedni od najraširenijih.
+
+Problem sa semantičkom analizom je što ne postoji formalni način da se definiraju semantička 
+pravila (za razliku od leksičke i sintaksne analize), no često se u praksi koristi
+sintaksnom vođena semantička analiza koja može olakšati implementiranje semantičke analize.
+
+Običaj je da se izvorni program prvo prevede u neki međukod koji je pogodan za optimiranje.
+Mi nismo stigli implementirati korak optimiranja (koji je u praksi važan) zbog nedostatka
+vremena pa naš prevoditelj direktno prevodi u ciljni jezik.

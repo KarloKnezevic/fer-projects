@@ -31,7 +31,7 @@
 \RequirePackage{fullpage}
 \RequirePackage{float}
 \RequirePackage{listings}
-%\RequirePackage{courier}
+\RequirePackage{courier}
 
 \renewcommand{\captionlabelfont}{\bfseries}
 \renewcommand{\captionfont}{\small}
@@ -209,3 +209,5 @@ Koristi \noexpand\datumpredaje za definiranje}}
 \newcommand{\engl}[1]{(engl.~\emph{#1})}
 
 \endinput
+
+

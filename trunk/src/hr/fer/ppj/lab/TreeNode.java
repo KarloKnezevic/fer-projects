@@ -16,6 +16,7 @@ public class TreeNode {
 	}
 	
 	public TreeNode getChild(int i) {
+		if(i >= children.length) return null;
 		return (TreeNode)children[i];
 	}
 	

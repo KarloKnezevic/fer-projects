@@ -80,9 +80,18 @@ public class ppjUI extends javax.swing.JFrame {
 				try {
 					compiler.compile(in);
 				} catch (Exception e1) {
-					//e1.printStackTrace();
+					e1.printStackTrace();
 					JFrame frame= new JFrame();
-					JOptionPane.showMessageDialog(frame, "Dogodila se greška! (Negdje...)");
+					//JOptionPane.showMessageDialog(frame, "Dogodila se greška!" + e1.getMessage());
+					//return;
+				} catch (Error e2) {
+					JFrame frame= new JFrame();
+					int col = compiler.lexer.getCol();
+					int row = compiler.lexer.getRow()+1;
+					JOptionPane.showMessageDialog(frame, 
+							e2.getMessage() + " \nLinija " + row + ", stupac " + col,
+							"Leksička greška!", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				popuniPodatke();
 			}

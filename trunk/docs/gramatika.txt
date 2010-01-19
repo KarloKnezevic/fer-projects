@@ -1,0 +1,111 @@
+program 			::= ext_declarations ;
+ext_declarations 	::= ext_declaration ext_declarations ;
+
+ext_declarations	::= ext_declaration ;
+ext_declaration	 	::= function  ;
+ext_declaration	 	::= var_dec  ;
+
+/***********	DEKLARACIJA/DEFINICIJA FUNKCIJA 	***********/
+function	::= func_def TOCKAZAREZ  ;
+function	::= func_def code_block  ;
+
+func_def	::= type_specifier IDN OBLA_L argdef_list OBLA_D ;
+func_def	::= type_specifier IDN OBLA_L OBLA_D  ;
+
+argdef_list	::= argdef ;
+argdef_list	::= argdef ZAREZ argdef_list  ;
+
+argdef		::= type_specifier IDN ;
+
+/***********	DEKLARACIJA/DEFINICIJA VARIJABLI 	***********/
+var_dec		::= var_def TOCKAZAREZ ;
+var_dec		::= array_def TOCKAZAREZ  ;
+var_dec		::= var_def ASSINGMENT expr TOCKAZAREZ ;
+var_def		::= type_specifier IDN ;
+array_def	::= type_specifier IDN array_dim ;
+array_dim	::= UGLATA_L CONST_INT UGLATA_D;
+array_dim	::= UGLATA_L CONST_INT UGLATA_D array_dim ;
+
+/***********	SKUP NAREDBI 	***********/
+code_block	::= VITICASTA_L code_stms VITICASTA_D ;
+code_block	::= VITICASTA_L VITICASTA_D;
+
+code_stms	::= code_stm code_stms ;
+code_stms	::= code_stm ;
+
+code_stm	::= for_loop  ;
+code_stm	::= while_loop  ;
+code_stm	::= do_while_loop  ;
+code_stm	::= if_cond ;
+code_stm	::= expr TOCKAZAREZ ;
+code_stm	::= BREAK TOCKAZAREZ  ;
+code_stm	::= CONTINUE TOCKAZAREZ  ;
+code_stm	::= RETURN TOCKAZAREZ ;
+code_stm	::= RETURN expr TOCKAZAREZ  ;
+code_stm	::= var_dec ;
+
+/***********	FOR PETLJA 	***********/
+for_loop	::= FOR OBLA_L for_loop_ctrl OBLA_D code_block ;
+for_loop	::= FOR OBLA_L for_loop_ctrl OBLA_D code_stm ;
+for_loop_ctrl 	::= for_ctrl_init for_ctrl_cond for_ctrl_step ;
+for_ctrl_init	::= IDN ASSINGMENT vitem TOCKAZAREZ;
+for_ctrl_init	::= TOCKAZAREZ;
+for_ctrl_cond	::= expr ;
+for_ctrl_step	::= TOCKAZAREZ expr ;
+for_ctrl_step	::= TOCKAZAREZ;
+
+/***********	WHILE PETLJA 	***********/
+while_loop	::= WHILE OBLA_L expr OBLA_D code_block;
+while_loop	::= WHILE OBLA_L expr OBLA_D code_stm ;
+do_while_loop	::= DO code_block WHILE OBLA_L expr OBLA_D TOCKAZAREZ ;
+
+
+/***********	IF ELSE 	***********/
+if_cond		::= IF OBLA_L expr OBLA_D code_block ;
+if_cond		::= IF OBLA_L expr OBLA_D code_block ELSE code_block  ;
+if_cond		::= IF OBLA_L expr OBLA_D code_stm ;
+
+func_call	::= IDN OBLA_L func_call_args OBLA_D ;
+func_call	::= IDN OBLA_L OBLA_D ;
+func_call_args	::= expr ;
+func_call_args	::= expr ZAREZ func_call_args  ;
+ 
+
+type_specifier	::= INT  ;
+type_specifier	::= CHAR  ;
+type_specifier	::= FLOAT ;
+type_specifier	::= BOOLEAN;
+type_specifier	::= VOID  ;
+
+constant	::= CONST_FLOAT  ;
+constant	::= CONST_INT ;
+constant	::= CONST_CHAR  ;
+constant	::= CONST_STR ;
+
+vitem		::= IDN  ;
+vitem		::= constant ;
+vitem		::= func_call ;
+
+/***********  IZRAZI 	***********/
+
+expr	::= IDN ASSINGMENT expr  ;
+
+expr	::= expr AND expr  ;
+expr	::= expr OR expr  ;
+expr	::= expr MUL expr  ;
+expr	::= expr DIV expr  ;
+expr	::= expr MOD expr   ;
+expr	::= expr PLUS expr   ;
+expr	::= expr MINUS expr   ;
+expr	::= expr EQUAL expr  ;
+expr	::= expr NOTEQ expr   ;
+expr	::= expr GREATER expr  ;
+expr	::= expr LESS expr   ;
+expr	::= expr GEQ expr  ;
+expr	::= expr LEQ expr  ;
+expr	::= NOT expr  ;
+
+expr	::= constant  ;
+expr	::= IDN  ;
+expr	::= func_call ;
+
