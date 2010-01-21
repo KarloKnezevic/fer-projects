@@ -3,6 +3,7 @@ package hr.fer.ppj.lab;
 import hr.fer.ppj.lab.semantic.Scope;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -60,12 +62,12 @@ public class ppjUI extends javax.swing.JFrame {
 		jMenuItem2 = new javax.swing.JMenuItem();
 
 		JTabbedPane tabbedPane = new JTabbedPane();
-
+		this.setPreferredSize(new Dimension(600, 600));
 		// tab code
 		JPanel code = new JPanel();
 		code.setLayout(new BorderLayout());
 		sourceCode = new JTextArea();
-		sourceCode.setText("\nint main() {\n\n }");
+		sourceCode.setText("int fja(int a, int b) {\n\t return a+b; \n} \n int main() {\n\t int x = fja(3, 5); \n\t return x; \n}");
 		code.add(sourceCode, BorderLayout.CENTER);
 		sourceCode.setTabSize(3);
 		JButton start = new JButton();
@@ -115,6 +117,7 @@ public class ppjUI extends javax.swing.JFrame {
 		JPanel target = new JPanel();
 		target.setLayout(new BorderLayout());
 		targetBytecode = new JTextArea();
+		targetBytecode.setTabSize(3);
 		target.add(targetBytecode, BorderLayout.CENTER);
 		JButton pokreni = new JButton();
 		pokreni.setText("Pokreni");
@@ -157,7 +160,7 @@ public class ppjUI extends javax.swing.JFrame {
 				}
 			}
 		});
-		menuFile.add(jMenuItem1);
+		//menuFile.add(jMenuItem1);
 
 		jMenuItem2.setText("Exit");
 		jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +196,9 @@ public class ppjUI extends javax.swing.JFrame {
 		for(String err : compiler.errorMsgs) semanticOutput.append(err+"\n");
 		semanticOutput.append("\n");
 		for(Scope s : compiler.semanticAnalyzer.allScopes) semanticOutput.append(s.toString()+"\n");
-		targetBytecode.setText(compiler.semanticAnalyzer.bytecode.toString());
+		if(compiler.errorMsgs.size()==0) {
+			targetBytecode.setText(compiler.semanticAnalyzer.bytecode.toString());
+		}
 	}
 
 	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)

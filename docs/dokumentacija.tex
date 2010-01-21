@@ -8,6 +8,38 @@
 
 \maketitle
 
+\begin{center}
+  \begin{tabular}{ | p{8cm} | c | c | c | }
+	\hline Ostvareno svojstvo & Nikako, jako slabo & Srednje & Puno \\
+	\hline 
+    \hline Leksička analiza & & & + \\ 
+    \hline Sintaksna analiza & & & + \\ 
+    \hline Semantička analiza & & & + \\ 
+    \hline Generiranje ciljnog programa & & + & \\ 
+    \hline Optimiranje & + & & \\ 
+    \hline Izvodivost ciljnog koda/simulator (postojeći = srednje, svoj = puno) & + & & \\ 
+    \hline GUI za upravljanje jezičnim procesorom & & & + \\ 
+    \hline Razina jakosti detekcije pogreške & & & + \\ 
+	\hline Razina jakosti oporavka od greške & + & & \\
+    \hline Ulazni jezik - Kontrola toka (npr. IF) & & & + \\
+    \hline Ulazni jezik - Petlje (npr. FOR) & & + & \\
+    \hline Ulazni jezik – Podrška za tipove podataka & & & + \\
+    \hline Ulazni jezik – Polja & & + &  \\
+    \hline Ulazni jezik – Strukture podataka & + & & \\
+    \hline Ulazni jezik - Pokazivači & + & & \\
+    \hline Ulazni jezik – Potprogrami & & & + \\
+    \hline Ulazni jezik – Rekurzija & & & + \\
+    \hline Ulazni jezik – Postojanje lokalnog djelokruga varijabli & & & + \\
+    \hline Ulazni jezik – Postojanje objektno orijentirane paradigme & + & & \\
+	\hline
+  \end{tabular}
+\end{center}
+\vspace{2cm}
+\textbf{Napomena:} Generiranje nije u potpunosti implementirano pa bi par + moglo stajati i u sredini. Više o tome u poglavlju o 
+generiranju. Primjerice, "for petlje" postoje u leksičkoj, sintaksnoj i semantičkoj analizi, no prilikom generiranja se zanemare ---
+a u generiranju od kontrole toka je zbog nedostatka vremena implementirano samo "if grananje" zbog demonstracije koncepta.
+\pagebreak
+
 \tableofcontents
 
 \lstset{ %
@@ -39,7 +71,9 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 \include{ch-6-zakljucak}
 
 \pagebreak
+\bibliographystyle{plain}
 \bibliography{literatura}
+\nocite{*}
 
 \appendix
 

@@ -32,6 +32,7 @@
 \RequirePackage{float}
 \RequirePackage{listings}
 \RequirePackage{courier}
+\RequirePackage{url}
 
 \renewcommand{\captionlabelfont}{\bfseries}
 \renewcommand{\captionfont}{\small}

@@ -1,5 +1,6 @@
 package hr.fer.ppj.lab.semantic;
 
+import hr.fer.ppj.lab.Token;
 import hr.fer.ppj.lab.TreeNode;
 
 public class InformationExtractor {
@@ -123,4 +124,5 @@ public class InformationExtractor {
 		if(!n.nodeValue.equals("code_block")) return null;
 		return n;
 	}
+	
 }

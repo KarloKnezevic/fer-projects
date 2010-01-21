@@ -35,6 +35,7 @@ import java_cup.runtime.*;
       Token token = new Token(type, i, Tools.getSymForConst(constType));
       token.setCol(yycolumn);
       token.setLine(yyline);
+      token.constType = constType;
       tokenList.add(token);
       token.setSymbolValue(symbolTable.getConstValue(i)); // postavi atribut value od Symbol razreda
 	  return token;
