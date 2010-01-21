@@ -35,4 +35,14 @@ public class Scope {
 		return "Scope " + name + ": " + typeMap.keySet().toString();
 		
 	}
+	
+	public char getCharType(String var) {
+		Type type = typeMap.get(var);
+		if(type==null) return '0';
+		if(Type.BOOLEAN == type) return 'b';
+		if(Type.INT == type) return 'i';
+		if(Type.CHAR == type) return 'c';
+		if(Type.FLOAT == type) return 'f';
+		return '0';
+	}
 }

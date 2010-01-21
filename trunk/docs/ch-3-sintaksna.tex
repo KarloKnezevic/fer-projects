@@ -2,7 +2,7 @@
 
 \section{Uvod}
 Cilj sintaksne analize je provjeriti odgovara li niz leksema gramatičkoj strukturi (pravilima). Produkt
-sintaksne analize (parsiranja) je sintaksno stablo. Gramatička pravila su zadana konteksno-neovisnom
+sintaksne analize (parsiranja) je sintaksno stablo. Gramatička pravila su zadana kontekstno-neovisnom
 gramatikom u BNF obliku.
 
 Postoje razne tehnike parsiranja s raznim karakteristikama: skup jezika koji obuhvaćaju, težina
@@ -13,7 +13,7 @@ kojom generira tablicu prijelaza iz gramatike koju koristi parser se naziva LALR
 
 \section{Implementacija}
 
-U implementaciji smo koristili generator LR parsera CUP koji generira parser napisan u programskom jezik Java.
+U implementaciji smo koristili generator LR parsera CUP (vidi \cite{cup}) koji generira parser napisan u programskom jezik Java.
 Parser predstavlja razred \texttt{Parser} čiji konstruktor prima objekt razreda \texttt{Lexer}
 kojeg koristi za dohvaćanje leksema.
 

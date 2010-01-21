@@ -21,7 +21,7 @@ Semantički analizator je implementiran u razredu \texttt{SemanticAnalyzer}. Poz
 pokreće se (ili nastavlja) analiza.
 
 Prilikom analize obilazimo sintaksno stablo. Za to koristimo stog na koji stavljamo čvorove stabla.
-U nekom koraku obilaska sa stoga skinemo jedan čvor, svu njegovu djecu stavimo na stog ali obrnutim redosljedom i 
+U nekom koraku obilaska sa stoga skinemo jedan čvor, svu njegovu djecu stavimo na stog ali obrnutim redoslijedom i 
 obradimo skinuti čvor (često jednostavno nastavimo s obilaskom po stablu). To ponavljamo dok na stogu ima čvorova za obraditi. 
 Na početku se na vrhu stoga nalazi vrh sintaksnog stabla.
 Za određene tipove čvorova su definirane akcije koje se izvrše kada posjetimo te čvorove. 
@@ -33,13 +33,15 @@ Izvorni jezik ima statički djelokrug bez ugnježđenja funkcija.
 
 Uz stog koji koristimo za obilazak, koristimo i stog na kojem čuvamo djelokruge. Djelokrug
 je predstavljen razredom \texttt{Scope} i sastoji se u suštini od par hash-mapi koje čuvaju
-popis varijabli koje su deklairane u tom djelokrugu, njihov tip i redni broj deklaracije (bitno za generiranje ciljnog programa).
+popis varijabli koje su deklarirane u tom djelokrugu, njihov tip i redni broj deklaracije (bitno za generiranje ciljnog programa).
 Na vrhu tog stoga je uvijek trenutni aktivni djelokrug i sve deklaracije na koje naiđemo se odnose na njega.
 Ukoliko se neka varijabla koristi u nekom izrazu onda provjerimo sve djelokruge (počevši od vrha stoga prema dnu)
 sadrže li tu varijablu. Na početku je na vrhu stoga globalni djelokrug.
 
 Ukoliko se dogodi da neka varijabla nije deklarirana, a pokuša se koristiti onda se prijavljuje greška. Semantička
 analiza se nastavlja, no nakon nje, ukoliko postoje greške, ne pokreće se generiranje izlaznog koda.
+
+Nije implementirana provjera broja argumenata koje funkcija prima.
 
 \section{Primjer izvođenja i određivanja djelokruga}
 Pogledajmo primjer određivanja djelokruga varijabli.

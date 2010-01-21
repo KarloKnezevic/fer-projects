@@ -10,8 +10,8 @@ Leksički analizatori se realiziraju pomoću konačnih automata, a praksa je da 
 
 \section{Implementacija}
 
-Za implementaciju smo koristili alat jFlex koji na temelju zadanih pravila generira leksički analizator. jFlex je
-alat za progamski jezik Javu tj. kôd analizatora koji generira je u Javi.
+Za implementaciju smo koristili alat jFlex (vidi \cite{jflex}) koji na temelju zadanih pravila generira leksički analizator. jFlex je
+alat za programski jezik Javu tj. kôd analizatora koji generira je u Javi.
 
 Razred koji generira i koji predstavlja leksički analizator u našem se slučaju zove \texttt{Lexer}. Prilikom
 instanciranja razreda \texttt{Lexer}, konstruktor prima \texttt{InputStream} iz kojeg čita ulaznu datoteku (izvorni kôd),
@@ -30,7 +30,7 @@ koje leksički analizator uđe kad pročita \texttt{"} i dok je u njemu ignorira
 
 \section{Leksemi}
 
-Ovdje je popis svih leksema koje prepoznaje naš jezični prevoditelj. Sintaksa kojom su definirani je ona koju koristi jFlex.
+Ovdje je popis svih leksema koje prepoznaje naš jezični prevoditelj. Sintaksa kojom su definirani je ona koju koristi jFlex \cite{jflex}.
 
 \lstinputlisting{leksemi.jflex}
 

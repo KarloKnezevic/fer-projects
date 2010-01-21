@@ -11,6 +11,7 @@ public class Token extends Symbol {
 	private int pointer;
 	private int line;
 	private int col;
+	public Lexer.ConstType constType = null;
 	
 	public Token(Type type, int pointer, int sym) {
 		super(sym);
@@ -65,6 +66,14 @@ public class Token extends Symbol {
 		super(0); // !
 		this.type = type;
 		this.pointer = pointer;
+	}
+	
+	public char getCharType() {
+		if(constType==null) return '0';
+		if(Lexer.ConstType.CHAR == constType) return 'c';
+		if(Lexer.ConstType.INT == constType) return 'i';
+		if(Lexer.ConstType.FLOAT == constType) return 'f';
+		return '0';
 	}
 	
 }
